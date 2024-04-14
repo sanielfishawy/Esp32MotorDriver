@@ -1,0 +1,9 @@
+# Configuration files
+sdkconfig
+sdkconfig.old
+
+# Production folder
+build/
+
+# HTML documentation
+html_doc/
