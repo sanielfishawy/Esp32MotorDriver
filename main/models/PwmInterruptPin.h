@@ -2,12 +2,16 @@
 #include "freertos/task.h"
 #include "driver/gpio.h"
 #include "esp_attr.h"
+#include "esp_log.h"
+
 #include "appConfig.h"
 #include "PwmPin.h"
 #include "PwmPairs.h"
 
 #ifndef PWM_INTERRUPT_PIN_H
 #define PWM_INTERRUPT_PIN_H
+
+#define PWM_INTR_PIN_TAG "PwmInterruptPin"
 
 #ifdef __cplusplus
 class PwmInterruptPin{
@@ -24,9 +28,9 @@ class PwmInterruptPin{
 
 
         static void _setupIntrGpioIn();
+        static void _handleInterrupt(void *params);
         static void _setupTask();
         static void IRAM_ATTR _gpio_isr_handler(void* arg);
-        static void _handleInterrupt(void *params);
 
 };
 #endif // __cplusplus

@@ -26,7 +26,7 @@ ledc_channel_config_t PwmPin::_getChannel(){
         .channel        = _channelNum,
         .intr_type      = LEDC_INTR_DISABLE,
         .timer_sel      = PWM_TIMER_NUM,
-        .duty           = 0, 
+        .duty           = static_cast<uint32_t>(0.5 * ((1 << PWM_DUTY_RESOLUTION) - 1)),
         .hpoint         = 0,
         .flags          = {
             .output_invert = 0,

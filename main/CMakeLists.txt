@@ -7,5 +7,6 @@ idf_component_register(SRCS "app_main.c"
                             "models/PwmInterrupt.cpp"
                             "models/TestOutputPin.cpp"
                             "models/PwmInterruptPin.cpp"
+                            "models/Adc.cpp"
                     INCLUDE_DIRS "." "models"
-                    PRIV_REQUIRES driver)
+                    PRIV_REQUIRES driver esp_timer esp_adc)

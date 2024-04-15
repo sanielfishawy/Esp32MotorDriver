@@ -1,10 +1,10 @@
 #include "PwmInterruptPin.h"
 
 // Private attributes
-PwmPin *_pwmPin = nullptr;
-TaskHandle_t _handleInteruptHandle = NULL;
-bool _isStarted = false;
-bool _isSetup = false;
+PwmPin * PwmInterruptPin::_pwmPin = nullptr;
+TaskHandle_t PwmInterruptPin::_handleInteruptHandle = NULL;
+bool PwmInterruptPin::_isStarted = false;
+bool PwmInterruptPin::_isSetup = false;
 
 // Public methods
 void PwmInterruptPin::setup(){
@@ -27,16 +27,17 @@ void PwmInterruptPin::startPwm(){
 // Private methods
 
 void PwmInterruptPin::_setupTask(){
-    xTaskCreate(_handleInterrupt, "PwmInterruptPinHandleInterrupt", 10000, NULL, 10, &_handleInteruptHandle);
+    xTaskCreate(_handleInterrupt, "PwmInterruptPinHandleInterrupt", 10000, nullptr, -1, &_handleInteruptHandle);
 }
 
 void PwmInterruptPin::_setupIntrGpioIn(){
+    // ESP_ERROR_CHECK(gpio_install_isr_service(ESP_INTR_FLAG_EDGE | ESP_INTR_FLAG_LEVEL6 | ESP_INTR_FLAG_IRAM));
+    ESP_ERROR_CHECK(gpio_install_isr_service(ESP_INTR_FLAG_EDGE | ESP_INTR_FLAG_IRAM));
     ESP_ERROR_CHECK(gpio_reset_pin(PWM_INTR_PIN_IN_GPIO_NUM));
     ESP_ERROR_CHECK(gpio_set_direction(PWM_INTR_PIN_IN_GPIO_NUM, GPIO_MODE_INPUT));
     ESP_ERROR_CHECK(gpio_intr_enable(PWM_INTR_PIN_IN_GPIO_NUM));
     ESP_ERROR_CHECK(gpio_set_intr_type(PWM_INTR_PIN_IN_GPIO_NUM, GPIO_INTR_POSEDGE));
-    gpio_install_isr_service(ESP_INTR_FLAG_EDGE);
-    gpio_isr_handler_add(PWM_INTR_PIN_IN_GPIO_NUM, _gpio_isr_handler, nullptr);
+    ESP_ERROR_CHECK(gpio_isr_handler_add(PWM_INTR_PIN_IN_GPIO_NUM, _gpio_isr_handler, nullptr));
 };
 
 
@@ -48,9 +49,9 @@ void IRAM_ATTR PwmInterruptPin::_gpio_isr_handler(void* arg){
 
 void PwmInterruptPin::_handleInterrupt(void *params){
     while (1) {
-    ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // Wait indefinitely for notification
-    // PwmPairs * pwmPairs = PwmPairs::getInstance();
-    // pwmPairs->handlePwmInterrupt();
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // Wait indefinitely for notification
+        PwmPairs * pwmPairs = PwmPairs::getInstance();
+        pwmPairs->handlePwmInterrupt();
     }
 };
 

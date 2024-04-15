@@ -1,5 +1,6 @@
 #include "driver/ledc.h"
 #include "driver/gpio.h"
+#include "esp_adc/adc_oneshot.h"
 
 // PwmInterruptPin
 #define PWM_INTR_PIN_OUT_GPIO_NUM   GPIO_NUM_47
@@ -25,10 +26,18 @@
 #define PWM_DUTY_RESOLUTION LEDC_TIMER_10_BIT
 #define PWM_TIMER_MODE LEDC_LOW_SPEED_MODE
 #define PWM_TIMER_NUM LEDC_TIMER_0
-#define PWM_FREQ (100)
+#define PWM_FREQ (15000)
 
 // PwmInterrupt
 #define PWM_INTR_MIN_CLOCK_DIVIDER  (2)
 
 // TestOutputPin
 #define TEST_OUTPUT_GPIO_NUM GPIO_NUM_11
+
+// Adc
+#define ADC_BIT_WIDTH ADC_BITWIDTH_DEFAULT
+#define ADC_MAX_VOLTAGE_BINARY (3430)
+#define ADC_MAX_VOLTAGE_FLOAT (2.75)
+#define ADC_CHANNEL_O_GPIO_NUM GPIO_NUM_1
+#define ADC_CHANNEL_1_GPIO_NUM GPIO_NUM_2
+#define ADC_CHANNEL_2_GPIO_NUM GPIO_NUM_3

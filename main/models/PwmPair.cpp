@@ -18,8 +18,8 @@ void PwmPair::startPwm(){
 
 
 void PwmPair::setDuty(float duty){
-    _highPin.setDuty(0.5);
-    _lowPin.setDuty(0.5);
+    _highPin.setDuty(duty);
+    _lowPin.setDuty(duty);
     return;
 
     if (duty < -1) duty = -1;
@@ -37,7 +37,7 @@ void PwmPair::setDuty(float duty){
 void PwmPair::handlePwmInterrupt(){
     static bool toggle;
     if(toggle) setDuty(0.5);
-    else setDuty(-0.5);
+    else setDuty(0.25);
     toggle = !toggle;
 }
 
