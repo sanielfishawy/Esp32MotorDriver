@@ -1,5 +1,4 @@
 #include "PwmPin.h"
-#include <iostream>
 
 // Public methods
 PwmPin::PwmPin(int gpioNum, ledc_channel_t channelNum){

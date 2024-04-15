@@ -71,11 +71,11 @@
     "typeinfo": "cpp",
     "pwmpin.h": "c"
   },
-  "idf.port": "/dev/cu.usbmodem14301",
+  "idf.port": "/dev/cu.usbmodem14101",
   "idf.flashType": "JTAG",
   "idf.adapterTargetName": "esp32s3",
   "idf.openOcdConfigs": [
-    "board/esp32s3-builtin.cfg"
+    "board/esp32s3-bridge.cfg"
   ],
   "C_Cpp.errorSquiggles": "enabled"
 }

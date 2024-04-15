@@ -1,7 +1,11 @@
 idf_component_register(SRCS "app_main.c"
-                            "models/PwmPair.cpp"
-                            "models/PwmPin.cpp"
+                            "setup.cpp"
                             "models/PwmTimer.cpp"
+                            "models/PwmPin.cpp"
+                            "models/PwmPair.cpp"
+                            "models/PwmPairs.cpp"
                             "models/PwmInterrupt.cpp"
+                            "models/TestOutputPin.cpp"
+                            "models/PwmInterruptPin.cpp"
                     INCLUDE_DIRS "." "models"
                     PRIV_REQUIRES driver)

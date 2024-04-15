@@ -1,21 +1,12 @@
+#include "esp_log.h"
+#include "PwmPin.h"
+
 #ifndef PWM_PAIR_H
 #define PWM_PAIR_H
 
-#include "PwmPin.h"
+#define PWM_PAIR_TAG "PwmPair: "
 
 #ifdef __cplusplus
-extern "C" {
-#endif
-
-// C accessible functions
-void PWM_PAIR_setup();
-
-#ifdef __cplusplus
-}
-#endif
-
-#ifdef __cplusplus
-
 class PwmPair {
     public:
         PwmPair(int highGpioNum, 
@@ -24,6 +15,7 @@ class PwmPair {
                 ledc_channel_t lowChannelNum);
         void startPwm();
         void setDuty(float duty);
+        void handlePwmInterrupt();
     
     private:
         int _highGpioNum;
@@ -33,6 +25,7 @@ class PwmPair {
         PwmPin _highPin;
         PwmPin _lowPin;
 };
-#endif
+
+#endif // __cplusplus
 
 #endif // PWM_PAIR_H

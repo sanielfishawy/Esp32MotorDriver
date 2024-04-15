@@ -1,9 +1,12 @@
+#include "driver/ledc.h"
+#include "esp_err.h"
+#include "appConfig.h"
+#include "PwmTimer.h"
+
 #ifndef PWM_PIN_H
 #define PWM_PIN_H
 
-#include "driver/ledc.h"
-#include "esp_err.h"
-#include "PwmTimer.h"
+#define PWM_PIN_TAG "PwmPin: "
 
 #ifdef __cplusplus
 
