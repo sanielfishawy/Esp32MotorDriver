@@ -1,3 +1,4 @@
+// Deprecated. See PwmInterrupt.h for more information. Use PwmInterruptPin instead.
 #include "PwmInterrupt.h"
 
 #ifdef __cplusplus

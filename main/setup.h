@@ -10,6 +10,7 @@
 #include "models/TestOutputPin.h"
 #include "models/PwmInterruptPin.h"
 #include "models/Adc.h"
+#include "models/PhaseGenTimer.h"
 
 #ifndef SETUP_H
 #define SETUP_H
@@ -27,5 +28,11 @@ void setup();
 #ifdef __cplusplus
 }
 #endif
+
+
+void _testAdc();
+void _testOuputPin();
+void _runPwm();
+void _testPhaseGenTimer(); 
 
 #endif  // SETUP_H

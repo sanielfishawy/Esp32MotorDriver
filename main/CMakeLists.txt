@@ -8,5 +8,7 @@ idf_component_register(SRCS "app_main.c"
                             "models/TestOutputPin.cpp"
                             "models/PwmInterruptPin.cpp"
                             "models/Adc.cpp"
+                            "models/PhaseGenTimer.cpp"
+                            "models/PhaseGen.c"
                     INCLUDE_DIRS "." "models"
                     PRIV_REQUIRES driver esp_timer esp_adc)

@@ -1,3 +1,6 @@
+// Deprecated: This attempt to use a gptimer to generate an interrupt synced to ledc signals was
+// unsuccessful. It was delayed by 800us and drifted. I switched to using PwmInterruptPin where
+// I use the ouptut of a ledc pin to drive an interrupt on another pin. 
 #ifndef PWM_INTERRUPT_H
 #define PWM_INTERRUPT_H
 
