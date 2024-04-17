@@ -35,6 +35,8 @@
     - -:test/support
   :source:
     - ../**
+    - ../../build/config/**
+    - "#{ENV['IDF_PATH']}/components/**"
   :support:
     - test/support
   :libraries: []
