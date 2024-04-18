@@ -44,7 +44,7 @@
 
 // PhaseGen
 #define PG_MIN_CLOCK_DIVIDER    (2)
-#define PG_TIMER_FREQ_HZ        ( APB_CLK_FREQ / PG_MIN_CLOCK_DIVIDER )
+#define PG_TIMER_FREQ_HZ        ( (int) APB_CLK_FREQ / PG_MIN_CLOCK_DIVIDER )
 #define PG_TIMER_PERIOD_SEC     ( (float)(1.0 / PG_TIMER_FREQ_HZ) )
 
 #define PG_MAX_FREQ_HZ          ( (float) 100.0 )
@@ -52,5 +52,5 @@
 #define PG_MIN_PERIOD_TICKS     ( (int) (PG_MIN_PERIOD_SEC / PG_TIMER_PERIOD_SEC) )
 
 #define PG_MIN_FREQ_HZ          ( (float) 0.5 )
-#define PG_MAX_PERIOD_SEC       ( (float) 1 / PG_MIN_FREQ_HZ )
+#define PG_MAX_PERIOD_SEC       ( (float) 1.0 / PG_MIN_FREQ_HZ )
 #define PG_MAX_PERIOD_TICKS     ( (int) (PG_MAX_PERIOD_SEC / PG_TIMER_PERIOD_SEC) )

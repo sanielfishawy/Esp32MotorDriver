@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <math.h>
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
+#include "esp_log.h"
 #include "appConfig.h"
 #include "PhaseGenTimer.h"
 
@@ -12,12 +17,17 @@ class PhaseGen{
 
     public:
         static void setup();
+        static void tearDown();
         static void start();
+        static void stop();
         static void setPeriodSec(float periodSec);
         static void setFreqHz(float freqHz);
         static float phaseRadians();
+        static int getPeriodTicks();
+        static uint64_t getTimerTick();
 
     private:
+        static const char *_logTag;
         static bool _isStarted;
         static bool _isSetup;
         static int _periodTicks;

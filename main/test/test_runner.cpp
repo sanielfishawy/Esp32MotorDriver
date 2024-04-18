@@ -1,20 +1,14 @@
-exter "C" {
+extern "C" {
     #include "unity.h"
 }
 
-// Include test files
-#include "test_temp.h"
+#include "test_runner.h"
 
-// Declare test functions from those files
-extern void test_function_from_file1(void);
-extern void test_function_from_file2(void);
-
-// Implement app_main to run all tests
-void app_main(void) {
-    UNITY_BEGIN();
-    
-    RUN_TEST(test_function_from_file1);
-    RUN_TEST(test_function_from_file2);
-    
-    UNITY_END();
+extern "C"{
+    void app_main(void) {
+        esp_log_level_set("*", ESP_LOG_INFO);
+        run_test_Temp();
+        run_test_PhaseGenTimer();
+        run_test_PhaseGen();
+    }
 }

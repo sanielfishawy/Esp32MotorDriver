@@ -43,7 +43,10 @@ endif()
 if(DEFINED ENV{TEST_COMPONENT})
         idf_component_register(
                 SRCS 
+                        "test/test_runner.cpp"
                         "test/test_Temp.cpp"
+                        "test/test_PhaseGenTimer.cpp"
+                        "test/test_PhaseGen.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

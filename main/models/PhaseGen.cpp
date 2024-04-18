@@ -2,20 +2,38 @@
 
 bool PhaseGen::_isSetup = false;
 bool PhaseGen::_isStarted = false;
+const char *PhaseGen::_logTag = "PhaseGen";
 int PhaseGen::_periodTicks = PG_MAX_PERIOD_TICKS;
 int PhaseGen::_previousPeriodTicks = PG_MAX_PERIOD_TICKS;
 
 void PhaseGen::setup(){
     if (_isSetup) return;
+    ESP_LOGD(_logTag, "setup()");
     PhaseGenTimer::setup();
     _isSetup = true;
 }
 
+void PhaseGen::tearDown(){
+    if (!_isSetup) return;
+    if (_isStarted) stop();
+    ESP_LOGD(_logTag, "tearDown()");
+    PhaseGenTimer::tearDown();
+    _isSetup = false;
+};
+
 void PhaseGen::start(){
     if (!_isSetup) return;
     if (_isStarted) return; 
+    ESP_LOGD(_logTag, "start()");
     PhaseGenTimer::startTimer();
     _isStarted = true;
+}
+
+void PhaseGen::stop(){
+    if (!_isStarted) return;
+    ESP_LOGD(_logTag, "stop()");
+    PhaseGenTimer::stopTimer();
+    _isStarted = false;
 }
 
 void PhaseGen::setPeriodSec(float periodSec){
@@ -32,6 +50,10 @@ float PhaseGen::phaseRadians(){
     return 2 * M_PI * _phaseFraction();
 }   
 
+int PhaseGen::getPeriodTicks(){
+    return _periodTicks;
+}
+
 void PhaseGen::_setPeriodTicks(int ticks){
     if (ticks < PG_MIN_PERIOD_TICKS){
         ticks = PG_MIN_PERIOD_TICKS;
@@ -40,6 +62,10 @@ void PhaseGen::_setPeriodTicks(int ticks){
     }
     _periodTicks = ticks;
     _checkAndAdjustForPeriodChange();
+}
+
+uint64_t PhaseGen::getTimerTick(){
+    return _getTimerTick();
 }
 
 void PhaseGen::_setTimerTick(uint64_t tick){

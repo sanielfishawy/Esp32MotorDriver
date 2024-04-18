@@ -9,20 +9,22 @@
 #ifndef PHASE_GEN_TIMER_H
 #define PHASE_GEN_TIMER_H
 
-
 #ifdef __cplusplus
 
 class PhaseGenTimer {
 
     public:
         static void setup();
+        static void tearDown();
         static void startTimer();
+        static void stopTimer();
         static uint64_t getTick();
         static void setTick(uint64_t tick);
 
     private:
-        static bool _isRunning;
+        static bool _isStarted;
         static bool _isSetup;
+        static const char *_logTag;
         static gptimer_config_t _timerConfig;
         static gptimer_handle_t _timer;
 
