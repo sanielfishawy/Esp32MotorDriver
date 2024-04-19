@@ -22,7 +22,7 @@ class PhaseGen{
         static void stop();
         static void setPeriodSec(float periodSec);
         static void setFreqHz(float freqHz);
-        static float phaseRadians();
+        static float getPhaseRad();
         static int getPeriodTicks();
         static uint64_t getTimerTick();
 

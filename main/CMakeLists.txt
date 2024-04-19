@@ -12,6 +12,7 @@ set (
                 "models/Adc.cpp"
                 "models/PhaseGenTimer.cpp"
                 "models/PhaseGen.cpp"
+                "models/WaveformGen.cpp"
 )
 
 set (
@@ -47,6 +48,7 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_Temp.cpp"
                         "test/test_PhaseGenTimer.cpp"
                         "test/test_PhaseGen.cpp"
+                        "test/test_WaveformGen.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

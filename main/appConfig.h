@@ -54,3 +54,8 @@
 #define PG_MIN_FREQ_HZ          ( (float) 0.5 )
 #define PG_MAX_PERIOD_SEC       ( (float) 1.0 / PG_MIN_FREQ_HZ )
 #define PG_MAX_PERIOD_TICKS     ( (int) (PG_MAX_PERIOD_SEC / PG_TIMER_PERIOD_SEC) )
+
+// WaveformGen
+#define WG_MAX_ADC_VALUE        ( (int) 4095 )
+#define WG_SINE_WAVE            ( (int) 0 )
+#define WG_SQUARE_WAVE          ( (int) 1 )

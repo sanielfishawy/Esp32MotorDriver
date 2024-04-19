@@ -34,7 +34,7 @@ extern "C" {
 
         int periodTicks = PhaseGen::getPeriodTicks();
         TEST_ASSERT_EQUAL_INT(periodTicks, 2 * 40 * 1000000 );
-        float radians = PhaseGen::phaseRadians();
+        float radians = PhaseGen::getPhaseRad();
         uint64_t timerTick = PhaseGen::getTimerTick();
         float fraction = radians / (2 * M_PI);
         float fractionOfCurrentPeriodUsingTicks = (float) timerTick / periodTicks; 
@@ -46,7 +46,7 @@ extern "C" {
         PhaseGen::setFreqHz(10);
         periodTicks = PhaseGen::getPeriodTicks();
         TEST_ASSERT_EQUAL_INT(periodTicks, 0.1 * 40 * 1000000 );
-        radians = PhaseGen::phaseRadians();
+        radians = PhaseGen::getPhaseRad();
         fraction = radians / (2 * M_PI);
         timerTick = PhaseGen::getTimerTick();
         fractionOfCurrentPeriodUsingTicks = (float) timerTick / periodTicks; 
@@ -60,7 +60,7 @@ extern "C" {
         // vTaskDelay(pdMS_TO_TICKS(25));  
         PhaseGen::stop();
 
-        radians = PhaseGen::phaseRadians(); 
+        radians = PhaseGen::getPhaseRad(); 
         TEST_ASSERT_EQUAL_INT(PhaseGen::getPeriodTicks(), 0.1 * 40 * 1000000 );
         TEST_ASSERT_DOUBLE_WITHIN(0.05, 0.75 * 2 * M_PI, radians);
     }

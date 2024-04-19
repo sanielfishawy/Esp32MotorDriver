@@ -10,5 +10,6 @@ extern "C"{
         run_test_Temp();
         run_test_PhaseGenTimer();
         run_test_PhaseGen();
+        run_test_WaveformGen();
     }
 }

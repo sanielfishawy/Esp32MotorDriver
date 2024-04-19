@@ -46,7 +46,7 @@ void PhaseGen::setFreqHz(float freq){
     setPeriodSec(periodSec);
 }
 
-float PhaseGen::phaseRadians(){
+float PhaseGen::getPhaseRad(){
     return 2 * M_PI * _phaseFraction();
 }   
 
