@@ -17,7 +17,7 @@ static void testPhaseGenTearDown(){
 
 extern "C" {
 
-    void testPgSetPeriod(void) {
+    static void testPgSetPeriod(void) {
         TEST_ASSERT_EQUAL_INT(PhaseGen::getPeriodTicks(), PG_MAX_PERIOD_TICKS);
         PhaseGen::setFreqHz(PG_MAX_FREQ_HZ * 1.05);
         TEST_ASSERT_EQUAL_INT(PhaseGen::getPeriodTicks(), PG_MIN_PERIOD_TICKS);
@@ -25,7 +25,7 @@ extern "C" {
         TEST_ASSERT_EQUAL_INT(PhaseGen::getPeriodTicks(), PG_MAX_PERIOD_TICKS);
     }
 
-    void testPgSetFreqHz(void) {
+    static void testPgSetFreqHz(void) {
         PhaseGen::setFreqHz(0.5);
 
         PhaseGen::start();

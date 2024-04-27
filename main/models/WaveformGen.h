@@ -37,6 +37,8 @@ class WaveformGen{
         static float _freqHz;
         static float _pPAmplitudeFract;
         static float _dcOffsetFract;
+
+        static float _getUnitValue(float phaseRad);
 };
 
 #endif // __cplusplus

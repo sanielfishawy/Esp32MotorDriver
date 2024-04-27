@@ -6,7 +6,7 @@ extern "C" {
 
 extern "C" {
     
-    void test_sum() {
+    static void test_sum() {
         TEST_ASSERT_EQUAL_FLOAT(5.0, Temp::sum(2.0, 3.0));
         TEST_ASSERT_TRUE(1);
     }

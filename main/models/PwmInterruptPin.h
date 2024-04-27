@@ -1,3 +1,5 @@
+#pragma once
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
@@ -7,9 +9,6 @@
 #include "appConfig.h"
 #include "PwmPin.h"
 #include "PwmPairs.h"
-
-#ifndef PWM_INTERRUPT_PIN_H
-#define PWM_INTERRUPT_PIN_H
 
 #define PWM_INTR_PIN_TAG "PwmInterruptPin"
 
@@ -34,5 +33,3 @@ class PwmInterruptPin{
 
 };
 #endif // __cplusplus
-
-#endif  // PWM_INTERRUPT_PIN_H

@@ -1,31 +1,40 @@
+#pragma once
+
 #include "esp_log.h"
 #include "PwmPin.h"
-
-#ifndef PWM_PAIR_H
-#define PWM_PAIR_H
+#include "Adc.h"
+#include "Pid.h"
+#include "WaveformGen.h"
+#include "FastLog.h"
 
 #define PWM_PAIR_TAG "PwmPair: "
 
 #ifdef __cplusplus
 class PwmPair {
     public:
-        PwmPair(int highGpioNum, 
+        PwmPair(gpio_num_t highGpioNum, 
                 ledc_channel_t highChannelNum, 
-                int lowGpioNum, 
-                ledc_channel_t lowChannelNum);
+                gpio_num_t lowGpioNum, 
+                ledc_channel_t lowChannelNum,
+                adc_channel_t adcChan,
+                float phaseOffsetRad,
+                bool enableLog);
         void startPwm();
         void setDuty(float duty);
         void handlePwmInterrupt();
+        int  readRawAdc();
     
     private:
-        int _highGpioNum;
+        PID _pid;
+        float _phaseOffsetRad;
+        gpio_num_t _highGpioNum;
         ledc_channel_t _highChannelNum;
-        int _lowGpioNum;
+        gpio_num_t _lowGpioNum;
         ledc_channel_t _lowChannelNum;
         PwmPin _highPin;
         PwmPin _lowPin;
+        adc_channel_t _adcChan;
+        bool _enableLog;
 };
 
 #endif // __cplusplus
-
-#endif // PWM_PAIR_H

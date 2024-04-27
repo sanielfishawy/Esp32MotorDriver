@@ -21,8 +21,7 @@ bool IRAM_ATTR PwmInterrupt::_onAlarm(gptimer_handle_t timer, const gptimer_alar
 void PwmInterrupt::pwmInterruptHandler(void *params) {
     while (1) {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // Wait indefinitely for notification
-        PwmPairs * pwmPairs = PwmPairs::getInstance();
-        pwmPairs->handlePwmInterrupt();
+        PwmPairs::handlePwmInterrupt();
     }
 }
 

@@ -13,6 +13,12 @@ set (
                 "models/PhaseGenTimer.cpp"
                 "models/PhaseGen.cpp"
                 "models/WaveformGen.cpp"
+                "models/Integrator.cpp"
+                "models/Derivator.cpp"
+                "models/Pid.cpp"
+                "models/Vfd.cpp"
+                "models/FastLog.cpp"
+                "http/WifiConnect.cpp"
 )
 
 set (
@@ -26,6 +32,8 @@ set (
                 driver
                 esp_timer
                 esp_adc
+                esp_wifi
+                nvs_flash
 )
 
 if (NOT DEFINED ENV{TEST_COMPONENT})
@@ -49,6 +57,13 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_PhaseGenTimer.cpp"
                         "test/test_PhaseGen.cpp"
                         "test/test_WaveformGen.cpp"
+                        "test/test_Integrator.cpp"
+                        "test/test_Derivator.cpp"
+                        "test/test_Pid.cpp"
+                        "test/test_Calibrate.cpp"
+                        "test/test_Hardware.cpp"
+                        "test/test_Vfd.cpp"
+                        "test/test_WifiConnect.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

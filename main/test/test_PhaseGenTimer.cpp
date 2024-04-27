@@ -18,14 +18,14 @@ static void testPhaseGenTearDown(){
 
 extern "C" {
     
-    void test_pgTimerSetupTeardown(){
+    static void test_pgTimerSetupTeardown(){
         PhaseGenTimer::tearDown();
         PhaseGenTimer::setup();
         TEST_ASSERT_EQUAL_INT64(0, PhaseGenTimer::getTick());
         PhaseGenTimer::tearDown();
     }
     
-    void test_PhaseGenTimer() {
+    static void test_PhaseGenTimer() {
         uint64_t tick; 
 
         ets_delay_us(1000 * 1000);

@@ -1,10 +1,10 @@
 #include "PwmPin.h"
 
 // Public methods
-PwmPin::PwmPin(int gpioNum, ledc_channel_t channelNum){
-    _gpioNum = gpioNum;
-    _channelNum = channelNum;
-    PwmTimer::setUpTimer();
+PwmPin::PwmPin(gpio_num_t gpioNum, ledc_channel_t channelNum):
+    _gpioNum(gpioNum),
+    _channelNum(channelNum) {
+        PwmTimer::setUpTimer();
 };
 
 void PwmPin::startPwm(){
@@ -21,12 +21,12 @@ void PwmPin::setDuty(float duty){
 // Private methods
 ledc_channel_config_t PwmPin::_getChannel(){
         ledc_channel_config_t ledc_channel = {
-        .gpio_num       = _gpioNum,
+        .gpio_num       = (int) _gpioNum,
         .speed_mode     = PWM_TIMER_MODE,
         .channel        = _channelNum,
         .intr_type      = LEDC_INTR_DISABLE,
         .timer_sel      = PWM_TIMER_NUM,
-        .duty           = static_cast<uint32_t>(0.5 * ((1 << PWM_DUTY_RESOLUTION) - 1)),
+        .duty           = 0,
         .hpoint         = 0,
         .flags          = {
             .output_invert = 0,

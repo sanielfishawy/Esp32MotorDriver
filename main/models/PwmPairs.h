@@ -4,7 +4,7 @@
 
 #include "appConfig.h"
 #include "PwmPair.h"
-#include "TestOutputPin.h"
+#include "PwmInterruptPin.h"
 
 #ifndef PWM_PAIRS_H
 #define PWM_PAIRS_H
@@ -15,25 +15,22 @@
 
 class PwmPairs{
     public:
-        static PwmPairs* getInstance();
-
-        void startPwm();
-        void handlePwmInterrupt();
-
-    protected:
-        PwmPairs();
+        static void setup();
+        static void startPwm();
+        static void handlePwmInterrupt();
+        static void setPairADuty(float duty);
+        static void setPairBDuty(float duty);
+        static void setPairCDuty(float duty);
+        static int  readRawAdcA();
+        static int  readRawAdcB();
+        static int  readRawAdcC();
 
     private:
-        static PwmPairs* _instance;
-        static SemaphoreHandle_t _mutex;
-        static void initializeMutex();
-
-        void _toggleTestOutputPin();
-
-        bool _isRunning;
-        PwmPair *_pairA;
-        PwmPair *_pairB;
-        PwmPair *_pairC;
+        static bool _isSetup;
+        static bool _isStarted;
+        static PwmPair _pairA;
+        static PwmPair _pairB;
+        static PwmPair _pairC;
 };
 
 #endif  // __cplusplus

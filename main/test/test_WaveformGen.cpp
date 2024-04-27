@@ -17,7 +17,7 @@ static void testWaveformGenTearDown(){
 
 extern "C" {
 
-    void testWgGetPoint(void) {
+    static void testWgGetPoint(void) {
         WaveformGen::setFreqHz(1.0);
         WaveformGen::setPPAmplitudeFract(0.75);
         WaveformGen::setDcOffsetFract(0.5);
@@ -27,12 +27,12 @@ extern "C" {
         WaveformGen::stop();
 
         int point = WaveformGen::getPoint(0);
-        int expected = (int) ( (0.5 + 0.75 / 2) * WG_MAX_ADC_VALUE );
+        int expected = (int) ( (0.5 + 0.75 / 2) * WG_ADC_RANGE + WG_ADC_ZERO_OFFSET );
         ESP_LOGI("testWgGetPoint", "expected: %d", expected);
         TEST_ASSERT_INT_WITHIN(1, expected, point);
 
         point = WaveformGen::getPoint(0.25 * 2 * M_PI);
-        expected = (int) ( 0.5 * WG_MAX_ADC_VALUE );
+        expected = (int) ( 0.5 * WG_ADC_RANGE + WG_ADC_ZERO_OFFSET );
         TEST_ASSERT_INT_WITHIN(1, expected, point);
     }
 

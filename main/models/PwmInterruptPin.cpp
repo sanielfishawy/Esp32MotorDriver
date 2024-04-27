@@ -50,8 +50,7 @@ void IRAM_ATTR PwmInterruptPin::_gpio_isr_handler(void* arg){
 void PwmInterruptPin::_handleInterrupt(void *params){
     while (1) {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // Wait indefinitely for notification
-        PwmPairs * pwmPairs = PwmPairs::getInstance();
-        pwmPairs->handlePwmInterrupt();
+        PwmPairs::handlePwmInterrupt();
     }
 };
 

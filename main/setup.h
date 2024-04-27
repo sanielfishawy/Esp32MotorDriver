@@ -30,9 +30,4 @@ void setup();
 #endif
 
 
-void _testAdc();
-void _testOuputPin();
-void _runPwm();
-void _testPhaseGenTimer(); 
-
 #endif  // SETUP_H

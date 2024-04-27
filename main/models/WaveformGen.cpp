@@ -17,14 +17,20 @@ int WaveformGen::getPoint(float phaseOffsetRad){
     }
 
     float phaseRad = PhaseGen::getPhaseRad() + phaseOffsetRad;
-    float ppGain = static_cast<float>( WG_MAX_ADC_VALUE ) * _pPAmplitudeFract;    
+    float ppGain = static_cast<float>( WG_ADC_RANGE ) * _pPAmplitudeFract;    
     float gain = ppGain / 2;
-    float offset = static_cast<float>( WG_MAX_ADC_VALUE ) * _dcOffsetFract;
-    float unitValue = sin(phaseRad);
+    float offset = static_cast<float>( WG_ADC_RANGE ) * _dcOffsetFract + WG_ADC_ZERO_OFFSET;
+    float unitValue = _getUnitValue(phaseRad);
 
-    ESP_LOGI(_logTag, "getPoint(): phaseRad = %f, phaseFract = %f, gain = %f, offset = %f, unitValue = %f", phaseRad, phaseRad / 2 / M_PI, gain, offset, unitValue);
+    // ESP_LOGI(_logTag, "getPoint(): phaseRad = %f, phaseFract = %f, gain = %f, offset = %f, unitValue = %f", phaseRad, phaseRad / 2 / M_PI, gain, offset, unitValue);
 
     return (int) ( ( gain * unitValue) + offset );
+};
+
+float WaveformGen::_getUnitValue(float phaseRad){
+    float sine = sin(phaseRad);
+    if (_waveform == WG_SQUARE_WAVE) return sine > 0 ? 1 : -1;
+    return sine;
 };
 
 void WaveformGen::setup(){
