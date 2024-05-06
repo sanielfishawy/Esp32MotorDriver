@@ -13,4 +13,6 @@ extern "C" {
     void run_test_Hardware();
     void run_test_Vfd();
     void run_test_WifiConnect();
+    void run_test_HttpServer();
+    void run_test_VfdOpenLoop();
 }

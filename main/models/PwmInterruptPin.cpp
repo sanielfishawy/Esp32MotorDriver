@@ -27,7 +27,16 @@ void PwmInterruptPin::startPwm(){
 // Private methods
 
 void PwmInterruptPin::_setupTask(){
-    xTaskCreate(_handleInterrupt, "PwmInterruptPinHandleInterrupt", 10000, nullptr, -1, &_handleInteruptHandle);
+    const BaseType_t core = 1;
+    xTaskCreatePinnedToCore(
+        _handleInterrupt,
+        "PwmInterruptPinHandleInterrupt",
+        10000,
+        nullptr,
+        configMAX_PRIORITIES - 1,
+        &_handleInteruptHandle,
+        core
+    );
 }
 
 void PwmInterruptPin::_setupIntrGpioIn(){

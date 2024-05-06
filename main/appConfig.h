@@ -39,7 +39,7 @@
 #define PWM_DUTY_RESOLUTION     LEDC_TIMER_10_BIT
 #define PWM_TIMER_MODE          LEDC_LOW_SPEED_MODE
 #define PWM_TIMER_NUM           LEDC_TIMER_0
-#define PWM_FREQ                (5000)
+#define PWM_FREQ                (10000)
 #define PWM_PERIOD_SEC          (1.0 / PWM_FREQ)
 
 // PwmInterrupt
@@ -80,7 +80,7 @@
 
 
 // PID
-#define PID_DEFAULT_KP                  ( (float) 0.005 )
+#define PID_DEFAULT_KP                  ( (float) 0.0005 )
 #define PID_DEFAULT_KI                  ( (float) 0.0 )
 #define PID_DEFAULT_KD                  ( (float) 0.0 )
 #define PID_DEFAULT_INTEGRATOR_SIZE     ( (int) 10 )

@@ -17,6 +17,8 @@ extern "C"{
         // run_test_Calibrate();
         // run_test_Hardware();
         // run_test_Vfd();
-        run_test_WifiConnect();
+        // run_test_WifiConnect();
+        // run_test_HttpServer();
+        run_test_VfdOpenLoop();
     }
 }

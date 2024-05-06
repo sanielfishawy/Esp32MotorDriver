@@ -1,11 +1,14 @@
 #pragma once
 
+#include "math.h"
 #include "esp_log.h"
+
 #include "PwmPin.h"
 #include "Adc.h"
 #include "Pid.h"
 #include "WaveformGen.h"
 #include "FastLog.h"
+#include "OpenLoopClosedLoop.h"
 
 #define PWM_PAIR_TAG "PwmPair: "
 
@@ -35,6 +38,11 @@ class PwmPair {
         PwmPin _lowPin;
         adc_channel_t _adcChan;
         bool _enableLog;
+        bool _handleChargePump();
+        void _resetChargePump(); 
+        void _handleClosedLoop();
+        void _handleOpenLoop();
+        long long _chargePumpTimer;
 };
 
 #endif // __cplusplus

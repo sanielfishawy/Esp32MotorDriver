@@ -17,8 +17,12 @@ set (
                 "models/Derivator.cpp"
                 "models/Pid.cpp"
                 "models/Vfd.cpp"
+                "models/OpenLoopClosedLoop.cpp"
                 "models/FastLog.cpp"
                 "http/WifiConnect.cpp"
+                "http/NvsFlash.cpp"
+                "http/HttpServer.cpp"
+
 )
 
 set (
@@ -34,6 +38,8 @@ set (
                 esp_adc
                 esp_wifi
                 nvs_flash
+                esp_http_server
+                json
 )
 
 if (NOT DEFINED ENV{TEST_COMPONENT})
@@ -63,7 +69,9 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_Calibrate.cpp"
                         "test/test_Hardware.cpp"
                         "test/test_Vfd.cpp"
+                        "test/test_VfdOpenLoop.cpp"
                         "test/test_WifiConnect.cpp"
+                        "test/test_HttpServer.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

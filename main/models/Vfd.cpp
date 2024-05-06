@@ -8,9 +8,9 @@ void VFD::setup(){
     Adc::setup();
 
     WaveformGen::setup();
-    WaveformGen::setFreqHz(10);
+    WaveformGen::setFreqHz(50);
     WaveformGen::setPPAmplitudeFract(0.5);
-    WaveformGen::setWaveform(WG_SQUARE_WAVE);
+    WaveformGen::setWaveform(WG_SINE_WAVE);
 
     PwmPairs::setup();
     

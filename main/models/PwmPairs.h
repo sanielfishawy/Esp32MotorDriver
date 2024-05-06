@@ -1,3 +1,5 @@
+#pragma once
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -5,9 +7,6 @@
 #include "appConfig.h"
 #include "PwmPair.h"
 #include "PwmInterruptPin.h"
-
-#ifndef PWM_PAIRS_H
-#define PWM_PAIRS_H
 
 #define PWM_PAIRS_TAG "PwmPairs: "
 
@@ -34,5 +33,3 @@ class PwmPairs{
 };
 
 #endif  // __cplusplus
-
-#endif  // PWM_PAIRS_H

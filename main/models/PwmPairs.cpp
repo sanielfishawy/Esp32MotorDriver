@@ -74,6 +74,6 @@ int PwmPairs::readRawAdcC(){
 
 void PwmPairs::handlePwmInterrupt(){
     _pairA.handlePwmInterrupt();
-    // _pairB.handlePwmInterrupt();
-    // _pairC.handlePwmInterrupt();
+    _pairB.handlePwmInterrupt();
+    _pairC.handlePwmInterrupt();
 }
