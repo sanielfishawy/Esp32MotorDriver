@@ -2,6 +2,12 @@
 
 std::vector<httpd_uri_t> Routes::uris = {
     {
+        .uri       = "/",
+        .method    = HTTP_GET,
+        .handler   = RouteHandlers::rootHandler,
+        .user_ctx  = nullptr,
+    },
+    {
         .uri       = "/amplitudeFract",
         .method    = HTTP_GET,
         .handler   = RouteHandlers::getAmplitudeFractHandler,

@@ -26,8 +26,8 @@ void PwmPair::setDuty(float duty){
 }
 
 void PwmPair::_setDuty(float duty){
-    if (duty < -1.0) duty = -1.0;
-    if (duty > 1.0) duty = 1.0;
+    if (duty < -0.98) duty = -0.98;
+    if (duty > 0.98) duty = 0.98;
 
     if (duty > 0){
         _highPin.setDuty(duty);

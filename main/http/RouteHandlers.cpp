@@ -1,4 +1,12 @@
 #include "RouteHandlers.h"
+esp_err_t RouteHandlers::rootHandler(httpd_req_t *req){
+    cJSON *responseObj = cJSON_CreateObject();
+    cJSON_AddBoolToObject(responseObj, "ok", true);
+    cJSON_AddBoolToObject(responseObj, "isActive", VFD::getIsActive());
+    cJSON_AddNumberToObject(responseObj, "amplitudeFract", VFD::getAmplitudeFract());
+    cJSON_AddNumberToObject(responseObj, "freqHz", VFD::getFreqHz());
+    return _sendResponse(req, responseObj);
+}
 
 esp_err_t RouteHandlers::getAmplitudeFractHandler(httpd_req_t *req){
     float amp = VFD::getAmplitudeFract();

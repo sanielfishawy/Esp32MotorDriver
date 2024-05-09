@@ -10,6 +10,7 @@
     
     class RouteHandlers{
         public:
+            static esp_err_t rootHandler(httpd_req_t *req);
             static esp_err_t getAmplitudeFractHandler(httpd_req_t *req);
             static esp_err_t setAmplitudeFractHandler(httpd_req_t *req);
             static esp_err_t getFreqHzHandler(httpd_req_t *req);
