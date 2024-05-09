@@ -2,13 +2,12 @@
 
 #include "math.h"
 #include "esp_log.h"
+#include "esp_task_wdt.h"
+#include "esp_timer.h"
 
 #include "PwmPin.h"
-#include "Adc.h"
-#include "Pid.h"
-#include "WaveformGen.h"
+#include "ChargePump.h"
 #include "FastLog.h"
-#include "OpenLoopClosedLoop.h"
 
 #define PWM_PAIR_TAG "PwmPair: "
 
@@ -18,18 +17,13 @@ class PwmPair {
         PwmPair(gpio_num_t highGpioNum, 
                 ledc_channel_t highChannelNum, 
                 gpio_num_t lowGpioNum, 
-                ledc_channel_t lowChannelNum,
-                adc_channel_t adcChan,
-                float phaseOffsetRad,
-                bool enableLog);
+                ledc_channel_t lowChannelNum
+                );
         void startPwm();
         void setDuty(float duty);
-        void handlePwmInterrupt();
-        int  readRawAdc();
     
     private:
-        PID _pid;
-        float _phaseOffsetRad;
+        ChargePump _chargePump;
         gpio_num_t _highGpioNum;
         ledc_channel_t _highChannelNum;
         gpio_num_t _lowGpioNum;
@@ -37,12 +31,8 @@ class PwmPair {
         PwmPin _highPin;
         PwmPin _lowPin;
         adc_channel_t _adcChan;
-        bool _enableLog;
         bool _handleChargePump();
-        void _resetChargePump(); 
-        void _handleClosedLoop();
-        void _handleOpenLoop();
-        long long _chargePumpTimer;
+        void _setDuty(float duty);
 };
 
 #endif // __cplusplus

@@ -2,9 +2,11 @@
 
 #include "esp_err.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 
 #include "appConfig.h"
 #include "PhaseGen.h"
+#include "FastLog.h"
 
 #ifdef __cplusplus
 
@@ -20,12 +22,10 @@ class WaveformGen{
         static int     getWaveform();
         static void    setFreqHz(float freqHz);
         static float   getFreqHz();
-        static void    setPPAmplitudeFract(float pPAmplitudeFract);
-        static float   getPPAmplitudeFract();
-        static void    setDcOffsetFract(float dcOffsetFract);
-        static float   getDcOffsetFract();
+        static void    setAmplitudeFract(float amplitudeFract);
+        static float   getAmplitudeFract();
 
-        static int     getPoint(float phaseOffsetRad);
+        static float   getDuty(float phaseOffsetRad);
 
     private:
         static const char * _logTag;
@@ -35,8 +35,7 @@ class WaveformGen{
 
         static int   _waveform;
         static float _freqHz;
-        static float _pPAmplitudeFract;
-        static float _dcOffsetFract;
+        static float _amplitudeFract;
 
         static float _getUnitValue(float phaseRad);
 };

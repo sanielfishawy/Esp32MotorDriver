@@ -11,11 +11,12 @@ extern "C" {
 
     static void test_vfd() {
         VFD::setup();
+        VFD::setFreqHz(60.0);
+        VFD::setAmplitudeFract(1);
         VFD::start();
         while(1){
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
             FastLog::log();
-            vTaskDelay(1523 / portTICK_PERIOD_MS);
-
         }
     }
 

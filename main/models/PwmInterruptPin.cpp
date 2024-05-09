@@ -27,7 +27,7 @@ void PwmInterruptPin::startPwm(){
 // Private methods
 
 void PwmInterruptPin::_setupTask(){
-    const BaseType_t core = 1;
+    const BaseType_t core = 0;
     xTaskCreatePinnedToCore(
         _handleInterrupt,
         "PwmInterruptPinHandleInterrupt",

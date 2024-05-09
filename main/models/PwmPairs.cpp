@@ -2,33 +2,30 @@
 
 bool PwmPairs::_isSetup = false;
 bool PwmPairs::_isStarted = false;
+float PwmPairs::_phaseOffsetRadB = M_2_PI / 3.0;
+float PwmPairs::_phaseOffsetRadC = M_2_PI * 2.0 / 3.0;
+bool PwmPairs::_isActive = false;
 
 PwmPair PwmPairs::_pairA(
     PWM_A_HIGH_GPIO_NUM,
     PWM_A_HIGH_CHANNEL_NUM,
     PWM_A_LOW_GPIO_NUM,
-    PWM_A_LOW_CHANNEL_NUM,
-    PWM_A_ADC_CHANNEL_NUM,
-    PWM_A_PHASE_OFFSET_RAD,
-    true);
+    PWM_A_LOW_CHANNEL_NUM
+    );
 
 PwmPair PwmPairs::_pairB(
     PWM_B_HIGH_GPIO_NUM,
     PWM_B_HIGH_CHANNEL_NUM,
     PWM_B_LOW_GPIO_NUM,
-    PWM_B_LOW_CHANNEL_NUM,
-    PWM_B_ADC_CHANNEL_NUM,
-    PWM_B_FWD_PHASE_OFFSET_RAD,
-    false);
+    PWM_B_LOW_CHANNEL_NUM
+    );
 
 PwmPair PwmPairs::_pairC(
     PWM_C_HIGH_GPIO_NUM,
     PWM_C_HIGH_CHANNEL_NUM,
     PWM_C_LOW_GPIO_NUM,
-    PWM_C_LOW_CHANNEL_NUM,
-    PWM_C_ADC_CHANNEL_NUM,
-    PWM_C_FWD_PHASE_OFFSET_RAD,
-    false);
+    PWM_C_LOW_CHANNEL_NUM
+    );
 
 void PwmPairs::setup(){
     if (_isSetup) return; 
@@ -60,20 +57,33 @@ void PwmPairs::setPairCDuty(float duty){
     _pairC.setDuty(duty);
 }
 
-int PwmPairs::readRawAdcA(){
-    return _pairA.readRawAdc();
+void PwmPairs::setActive(){
+    _isActive = true;
 }
 
-int PwmPairs::readRawAdcB(){
-    return _pairB.readRawAdc();
+void PwmPairs::setFloat(){
+    _isActive = false;
 }
 
-int PwmPairs::readRawAdcC(){
-    return _pairC.readRawAdc();
+bool PwmPairs::getIsActive(){
+    return _isActive;
+}
+
+bool PwmPairs::getIsFloating(){
+    return !_isActive;
 }
 
 void PwmPairs::handlePwmInterrupt(){
-    _pairA.handlePwmInterrupt();
-    _pairB.handlePwmInterrupt();
-    _pairC.handlePwmInterrupt();
+    if (!_isActive) {
+        setPairADuty(0.0);
+        setPairBDuty(0.0);
+        setPairCDuty(0.0);
+        return;
+    }
+    float dutyA = WaveformGen::getDuty(0.0);
+    float dutyB = WaveformGen::getDuty(_phaseOffsetRadB);
+    float dutyC = WaveformGen::getDuty(_phaseOffsetRadC);
+    setPairADuty(dutyA);
+    setPairBDuty(dutyB);
+    setPairCDuty(dutyC);
 }

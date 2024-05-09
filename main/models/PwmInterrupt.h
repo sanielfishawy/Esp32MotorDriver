@@ -9,6 +9,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_task_wdt.h"
 #include "driver/gptimer.h"
 #include "esp_log.h"
 #include "soc/soc.h"

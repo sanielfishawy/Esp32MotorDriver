@@ -15,8 +15,13 @@ class VFD{
         static void tearDown();
         static void stop();
         static void setFreqHz(float freqHz);
-        static void setPPAmplitudeFract(float pPAmplitudeFract);
-        static void setDcOffsetFract(float dcOffsetFract);
+        static void setAmplitudeFract(float pPAmplitudeFract);
+        static float getFreqHz();
+        static float getAmplitudeFract();
+        static void setActive();
+        static void setFloat();
+        static bool getIsActive();
+        static bool getIsFloating();
 
     private:
         static bool _isSetup;

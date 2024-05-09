@@ -1,12 +1,17 @@
 #pragma once
 
+#include "math.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
+#include "esp_task_wdt.h"
+#include "esp_timer.h"
 
 #include "appConfig.h"
 #include "PwmPair.h"
 #include "PwmInterruptPin.h"
+#include "FastLog.h"
+#include "WaveformGen.h"
 
 #define PWM_PAIRS_TAG "PwmPairs: "
 
@@ -20,9 +25,10 @@ class PwmPairs{
         static void setPairADuty(float duty);
         static void setPairBDuty(float duty);
         static void setPairCDuty(float duty);
-        static int  readRawAdcA();
-        static int  readRawAdcB();
-        static int  readRawAdcC();
+        static void setActive();
+        static void setFloat();
+        static bool getIsActive();
+        static bool getIsFloating();
 
     private:
         static bool _isSetup;
@@ -30,6 +36,9 @@ class PwmPairs{
         static PwmPair _pairA;
         static PwmPair _pairB;
         static PwmPair _pairC;
+        static float _phaseOffsetRadB;
+        static float _phaseOffsetRadC;
+        static bool _isActive;
 };
 
 #endif  // __cplusplus

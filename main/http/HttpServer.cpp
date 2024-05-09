@@ -3,42 +3,31 @@
 
 bool HttpServer::_isSetup = false;
 
-httpd_uri_t HttpServer::_hello = {
-    .uri       = "/hello",
-    .method    = HTTP_GET,
-    .handler   = _get_hello_handler,
-    .user_ctx  = NULL
-};
-
 void HttpServer::setup(){
     if (_isSetup) return;
 
     NvsFlash::setup();
     WifiConnect::setup();
     _start_webserver();
+    _setupMdns();
 
     _isSetup = true;
 }
 
-esp_err_t HttpServer::_get_hello_handler(httpd_req_t *req) {
-    cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "message", "Hello, world!");
-    const char *response = cJSON_Print(root);
-
-    httpd_resp_set_type(req, "application/json");
-    httpd_resp_send(req, response, strlen(response));
-
-    free((void *)response);
-    cJSON_Delete(root);
-    return ESP_OK;
+void HttpServer::_setupMdns(){
+    ESP_ERROR_CHECK( mdns_init());
+    ESP_ERROR_CHECK( mdns_hostname_set(HS_MDNS_HOSTNAME) );
+    ESP_ERROR_CHECK( mdns_instance_name_set(HS_MDNS_INSTANCE_NAME) );
+    ESP_ERROR_CHECK( mdns_service_add(NULL, "_http", "_tcp", 80, NULL, 0) );
 }
-
 
 httpd_handle_t HttpServer::_start_webserver(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     httpd_handle_t server = NULL;
     if (httpd_start(&server, &config) == ESP_OK) {
-        httpd_register_uri_handler(server, &_hello);
+        for (auto &uri : Routes::uris) {
+            ESP_ERROR_CHECK( httpd_register_uri_handler(server, &uri) );
+        }
     }
     return server;
 }

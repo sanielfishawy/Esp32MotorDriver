@@ -19,21 +19,19 @@ extern "C" {
 
     static void testWgGetPoint(void) {
         WaveformGen::setFreqHz(1.0);
-        WaveformGen::setPPAmplitudeFract(0.75);
-        WaveformGen::setDcOffsetFract(0.5);
+        WaveformGen::setAmplitudeFract(0.75);
 
         WaveformGen::start();
         ets_delay_us(.25 * 1000 * 1000);
         WaveformGen::stop();
 
-        int point = WaveformGen::getPoint(0);
-        int expected = (int) ( (0.5 + 0.75 / 2) * WG_ADC_RANGE + WG_ADC_ZERO_OFFSET );
-        ESP_LOGI("testWgGetPoint", "expected: %d", expected);
-        TEST_ASSERT_INT_WITHIN(1, expected, point);
+        float duty = WaveformGen::getDuty(0);
+        float expected = 0.75;
+        TEST_ASSERT_EQUAL_FLOAT(expected, duty);
 
-        point = WaveformGen::getPoint(0.25 * 2 * M_PI);
-        expected = (int) ( 0.5 * WG_ADC_RANGE + WG_ADC_ZERO_OFFSET );
-        TEST_ASSERT_INT_WITHIN(1, expected, point);
+        duty = WaveformGen::getDuty(0.25 * 2 * M_PI);
+        expected = 0;
+        TEST_ASSERT_FLOAT_WITHIN(0.001, expected, duty);
     }
 
     void run_test_WaveformGen(){

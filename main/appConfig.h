@@ -39,8 +39,9 @@
 #define PWM_DUTY_RESOLUTION     LEDC_TIMER_10_BIT
 #define PWM_TIMER_MODE          LEDC_LOW_SPEED_MODE
 #define PWM_TIMER_NUM           LEDC_TIMER_0
-#define PWM_FREQ                (10000)
-#define PWM_PERIOD_SEC          (1.0 / PWM_FREQ)
+#define PWM_FREQ                10000
+#define PWM_PERIOD_SEC          ( 1.0 / PWM_FREQ )
+#define PWM_PERIOD_USEC         ( 1000000.0 * PWM_PERIOD_SEC )
 
 // PwmInterrupt
 #define PWM_INTR_MIN_CLOCK_DIVIDER  (2)
@@ -73,18 +74,33 @@
 #define PG_MAX_PERIOD_TICKS     ( (int) (PG_MAX_PERIOD_SEC / PG_TIMER_PERIOD_SEC) )
 
 // WaveformGen
-#define WG_ADC_RANGE            ADC_RANGE_BINARY
-#define WG_ADC_ZERO_OFFSET      ADC_MIN_VOLTAGE_BINARY
 #define WG_SINE_WAVE            ( (int) 0 )
 #define WG_SQUARE_WAVE          ( (int) 1 )
-
+#define WG_AMP_FRACT_MAX         ( (float) 1.0 )
+#define WG_AMP_FRACT_MIN         ( (float) 0.0 )
+#define WG_FREQ_MAX             ( (float) 60.0 )
+#define WG_FREQ_MIN             ( (float) 0.1 )
 
 // PID
-#define PID_DEFAULT_KP                  ( (float) 0.0005 )
+#define PID_DEFAULT_KP                  ( (float) 0.0002 )
 #define PID_DEFAULT_KI                  ( (float) 0.0 )
 #define PID_DEFAULT_KD                  ( (float) 0.0 )
 #define PID_DEFAULT_INTEGRATOR_SIZE     ( (int) 10 )
 
+// ChargePump
+#define CP_TAG                                  "ChargePump"
+#define CP_REQUIRES_CHARGE_PUMP                 ( (bool) true )
+#define CP_TIME_BETWEEN_CHARGES_USEC            1000.0
+#define CP_CHARGE_TIME_USEC                     5.0
+#define CP_TIME_BETWEEN_CHARGES_IN_PWM_CYCLES   ( (int) ( CP_TIME_BETWEEN_CHARGES_USEC / PWM_PERIOD_USEC ) )
+#define CP_CHARGE_TIME_IN_PWM_DUTY_CYCLE        ( CP_CHARGE_TIME_USEC / PWM_PERIOD_USEC ) 
+
 // Wifi
-#define WIFI_SSID "scoutandjagger"
-#define WIFI_PWD "ridgebacks"
+#define WIFI_SSID   "scoutandjagger"
+#define WIFI_PWD    "ridgebacks"
+
+// HttpServer
+#define HS_MDNS_HOSTNAME        "motor"
+#define HS_MDNS_INSTANCE_NAME   "Esp32 Motor Controller Http Server"
+#define HS_MAX_URI_LENGTH       128
+#define HS_MAX_PARAM_LENGTH     64

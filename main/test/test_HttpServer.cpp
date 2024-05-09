@@ -5,14 +5,14 @@ extern "C" {
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "../http/HttpServer.h"
+#include "../models/Vfd.h"
 
 extern "C" {
 
     static void test_httpServer() {
         HttpServer::setup();
-        while(1){
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
-        }
+        VFD::setup();
+        VFD::start();
     }
 
     void run_test_HttpServer(){

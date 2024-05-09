@@ -19,10 +19,12 @@ set (
                 "models/Vfd.cpp"
                 "models/OpenLoopClosedLoop.cpp"
                 "models/FastLog.cpp"
+                "models/ChargePump.cpp"
                 "http/WifiConnect.cpp"
                 "http/NvsFlash.cpp"
                 "http/HttpServer.cpp"
-
+                "http/Routes.cpp"
+                "http/RouteHandlers.cpp"
 )
 
 set (
@@ -40,6 +42,7 @@ set (
                 nvs_flash
                 esp_http_server
                 json
+                mdns
 )
 
 if (NOT DEFINED ENV{TEST_COMPONENT})
@@ -69,7 +72,8 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_Calibrate.cpp"
                         "test/test_Hardware.cpp"
                         "test/test_Vfd.cpp"
-                        "test/test_VfdOpenLoop.cpp"
+                        "test/test_ChargePump.cpp"
+                        "test/test_Performance.cpp"
                         "test/test_WifiConnect.cpp"
                         "test/test_HttpServer.cpp"
                         ${SHARED_SOURCES}
