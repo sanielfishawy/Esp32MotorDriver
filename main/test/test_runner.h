@@ -16,4 +16,7 @@ extern "C" {
     void run_test_HttpServer();
     void run_test_ChargePump();
     void run_test_Performance();
+    void run_test_WritePosition();
+    void run_test_TelemetryToFile();
+    void run_test_Spiffs();
 }

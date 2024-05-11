@@ -2,8 +2,8 @@
 
 bool PwmPairs::_isSetup = false;
 bool PwmPairs::_isStarted = false;
-float PwmPairs::_phaseOffsetRadB = M_2_PI / 3.0;
-float PwmPairs::_phaseOffsetRadC = M_2_PI * 2.0 / 3.0;
+float PwmPairs::_phaseOffsetRadB = 2.0 * M_PI / 3.0;
+float PwmPairs::_phaseOffsetRadC = 2.0 * M_PI * 2.0 / 3.0;
 bool PwmPairs::_isActive = false;
 
 PwmPair PwmPairs::_pairA(

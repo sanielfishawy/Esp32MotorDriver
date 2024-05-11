@@ -1,0 +1,1 @@
+#define FN_SLIP "/spiffs/slip.bin"

@@ -25,6 +25,9 @@ set (
                 "http/HttpServer.cpp"
                 "http/Routes.cpp"
                 "http/RouteHandlers.cpp"
+                "telemetry/WritePosition.cpp"
+                "telemetry/TelemetryToFile.cpp"
+                "telemetry/Spiffs.cpp"
 )
 
 set (
@@ -43,6 +46,7 @@ set (
                 esp_http_server
                 json
                 mdns
+                spiffs
 )
 
 if (NOT DEFINED ENV{TEST_COMPONENT})
@@ -76,6 +80,9 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_Performance.cpp"
                         "test/test_WifiConnect.cpp"
                         "test/test_HttpServer.cpp"
+                        "test/test_WritePosition.cpp"
+                        "test/test_TelemetryToFile.cpp"
+                        "test/test_Spiffs.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

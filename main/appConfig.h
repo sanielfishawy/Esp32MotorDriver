@@ -104,3 +104,7 @@
 #define HS_MDNS_INSTANCE_NAME   "Esp32 Motor Controller Http Server"
 #define HS_MAX_URI_LENGTH       128
 #define HS_MAX_PARAM_LENGTH     64
+
+// TelemetryToFile
+#define TEL_TAG                 "TelemetryToFile"
+#define TEL_NUM_POINTS_STORED   2000

@@ -18,8 +18,10 @@ extern "C"{
         // run_test_Hardware();
         // run_test_Vfd();
         // run_test_WifiConnect();
-        run_test_HttpServer();
         // run_test_ChargePump();
         // run_test_Performance();
+        // run_test_WritePosition();
+        run_test_TelemetryToFile();
+        // run_test_Spiffs();
     }
 }
