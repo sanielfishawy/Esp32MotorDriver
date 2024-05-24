@@ -19,4 +19,5 @@ extern "C" {
     void run_test_WritePosition();
     void run_test_TelemetryToFile();
     void run_test_Spiffs();
+    void run_test_McPwmPair();
 }

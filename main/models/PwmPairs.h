@@ -38,7 +38,6 @@ class PwmPairs{
         static PwmPair _pairC;
         static float _phaseOffsetRadB;
         static float _phaseOffsetRadC;
-        static bool _isActive;
 };
 
 #endif  // __cplusplus

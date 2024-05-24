@@ -11,7 +11,8 @@ PwmPair::PwmPair(   gpio_num_t highGpioNum,
     _lowGpioNum(lowGpioNum),
     _lowChannelNum(lowChannelNum),
     _highPin(highGpioNum, highChannelNum),  
-    _lowPin(lowGpioNum, lowChannelNum)
+    _lowPin(lowGpioNum, lowChannelNum),
+    _isActive(false)
 {}
 
 void PwmPair::startPwm(){
@@ -19,7 +20,28 @@ void PwmPair::startPwm(){
     _lowPin.startPwm();
 }
 
+void PwmPair::setActive(){
+    _isActive = true;
+}
+
+void PwmPair::setFloat(){
+    _isActive = false;
+}
+
+bool PwmPair::getIsActive(){
+    return _isActive;
+}
+
+bool PwmPair::getIsFloating(){
+    return !_isActive;
+}
+
 void PwmPair::setDuty(float duty){
+    if (!_isActive){
+        _setDuty(0);
+        return;
+    }
+
     if (!_handleChargePump()){
         _setDuty(duty);
     }

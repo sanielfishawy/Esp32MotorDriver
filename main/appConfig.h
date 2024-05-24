@@ -90,8 +90,8 @@
 // ChargePump
 #define CP_TAG                                  "ChargePump"
 #define CP_REQUIRES_CHARGE_PUMP                 ( (bool) true )
-#define CP_TIME_BETWEEN_CHARGES_USEC            1000.0
-#define CP_CHARGE_TIME_USEC                     5.0
+#define CP_TIME_BETWEEN_CHARGES_USEC            500.0
+#define CP_CHARGE_TIME_USEC                     20.0
 #define CP_TIME_BETWEEN_CHARGES_IN_PWM_CYCLES   ( (int) ( CP_TIME_BETWEEN_CHARGES_USEC / PWM_PERIOD_USEC ) )
 #define CP_CHARGE_TIME_IN_PWM_DUTY_CYCLE        ( CP_CHARGE_TIME_USEC / PWM_PERIOD_USEC ) 
 
@@ -108,3 +108,20 @@
 // TelemetryToFile
 #define TEL_TAG                 "TelemetryToFile"
 #define TEL_NUM_POINTS_STORED   2000
+
+// McPwm
+#define MCPWM_TAG                   "McPwm"
+#define MCPWM_TIMER_FREQ_HZ         ( (uint32_t) (80 * 1000 * 1000 ) )
+#define MCPWM_TIMER_TICK_SEC        ((float) ( 1.0 / MCPWM_TIMER_FREQ_HZ ))
+#define MCPWM_TIMER_TICK_USEC       ((float) ( 1000.0 * 1000.0 * MCPWM_TIMER_TICK_SEC ))
+#define MCPWM_TIMER_TICKS           ( (u_int32_t) ( MCPWM_TIMER_FREQ_HZ / PWM_FREQ ) )
+#define MCPWM_MIN_PW_USEC           ( (u_int32_t) 5 )  
+#define MCPWM_MAX_PW_USEC           ( (u_int32_t) ( PWM_PERIOD_USEC - MCPWM_MIN_PW_USEC ) )
+#define MCPWM_MIN_PW_TICKS          ( ( uint32_t ) ( MCPWM_MIN_PW_USEC / MCPWM_TIMER_TICK_USEC ) )
+#define MCPWM_MAX_PW_TICKS          ( ( uint32_t ) ( MCPWM_MAX_PW_USEC / MCPWM_TIMER_TICK_USEC ) )
+#define MCPWM_A_HIGH_GPIO_NUM       PWM_A_HIGH_GPIO_NUM
+#define MCPWM_A_LOW_GPIO_NUM        PWM_A_LOW_GPIO_NUM
+#define MCPWM_B_HIGH_GPIO_NUM       PWM_B_HIGH_GPIO_NUM
+#define MCPWM_B_LOW_GPIO_NUM        PWM_B_LOW_GPIO_NUM
+#define MCPWM_C_HIGH_GPIO_NUM       PWM_C_HIGH_GPIO_NUM
+#define MCPWM_C_LOW_GPIO_NUM        PWM_C_LOW_GPIO_NUM

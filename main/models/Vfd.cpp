@@ -6,8 +6,8 @@ bool VFD::_isStarted = false;
 void VFD::setup(){
     if(_isSetup) return;
     WaveformGen::setup();
-    WaveformGen::setFreqHz(50);
-    WaveformGen::setAmplitudeFract(0.5);
+    WaveformGen::setFreqHz(5);
+    WaveformGen::setAmplitudeFract(0.1);
     WaveformGen::setWaveform(WG_SINE_WAVE);
 
     PwmPairs::setup();

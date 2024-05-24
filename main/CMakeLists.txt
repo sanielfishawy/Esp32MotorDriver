@@ -20,6 +20,7 @@ set (
                 "models/OpenLoopClosedLoop.cpp"
                 "models/FastLog.cpp"
                 "models/ChargePump.cpp"
+                "models/McPwmPair.cpp"
                 "http/WifiConnect.cpp"
                 "http/NvsFlash.cpp"
                 "http/HttpServer.cpp"
@@ -83,6 +84,7 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_WritePosition.cpp"
                         "test/test_TelemetryToFile.cpp"
                         "test/test_Spiffs.cpp"
+                        "test/test_McPwmPair.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

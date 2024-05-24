@@ -21,6 +21,10 @@ class PwmPair {
                 );
         void startPwm();
         void setDuty(float duty);
+        void setActive();
+        void setFloat();
+        bool getIsActive();
+        bool getIsFloating();
     
     private:
         ChargePump _chargePump;
@@ -33,6 +37,7 @@ class PwmPair {
         adc_channel_t _adcChan;
         bool _handleChargePump();
         void _setDuty(float duty);
+        bool _isActive;
 };
 
 #endif // __cplusplus

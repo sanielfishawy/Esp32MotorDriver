@@ -4,7 +4,6 @@ bool PwmPairs::_isSetup = false;
 bool PwmPairs::_isStarted = false;
 float PwmPairs::_phaseOffsetRadB = 2.0 * M_PI / 3.0;
 float PwmPairs::_phaseOffsetRadC = 2.0 * M_PI * 2.0 / 3.0;
-bool PwmPairs::_isActive = false;
 
 PwmPair PwmPairs::_pairA(
     PWM_A_HIGH_GPIO_NUM,
@@ -58,28 +57,26 @@ void PwmPairs::setPairCDuty(float duty){
 }
 
 void PwmPairs::setActive(){
-    _isActive = true;
+    _pairA.setActive();
+    _pairB.setActive();
+    _pairC.setActive();
 }
 
 void PwmPairs::setFloat(){
-    _isActive = false;
+    _pairA.setFloat();
+    _pairB.setFloat();
+    _pairC.setFloat();
 }
 
 bool PwmPairs::getIsActive(){
-    return _isActive;
+    return _pairA.getIsActive() || _pairB.getIsActive() || _pairC.getIsActive();
 }
 
 bool PwmPairs::getIsFloating(){
-    return !_isActive;
+    return _pairA.getIsFloating() && _pairB.getIsFloating() && _pairC.getIsFloating();
 }
 
 void PwmPairs::handlePwmInterrupt(){
-    if (!_isActive) {
-        setPairADuty(0.0);
-        setPairBDuty(0.0);
-        setPairCDuty(0.0);
-        return;
-    }
     float dutyA = WaveformGen::getDuty(0.0);
     float dutyB = WaveformGen::getDuty(_phaseOffsetRadB);
     float dutyC = WaveformGen::getDuty(_phaseOffsetRadC);

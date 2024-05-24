@@ -21,7 +21,8 @@ extern "C"{
         // run_test_ChargePump();
         // run_test_Performance();
         // run_test_WritePosition();
-        run_test_TelemetryToFile();
+        // run_test_TelemetryToFile();
         // run_test_Spiffs();
+        run_test_McPwmPair();
     }
 }

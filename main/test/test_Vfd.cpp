@@ -5,18 +5,20 @@ extern "C" {
 #include "FastLog.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "../models/Vfd.h"
+#include "../http/HttpServer.h"
+#include "../http/HttpServer.h"
 
 extern "C" {
 
     static void test_vfd() {
+        HttpServer::setup();
         VFD::setup();
-        VFD::setFreqHz(60.0);
-        VFD::setAmplitudeFract(1);
+        VFD::setFreqHz(5.0);
+        VFD::setAmplitudeFract(0.1);
         VFD::start();
         while(1){
             vTaskDelay(1000 / portTICK_PERIOD_MS);
-            FastLog::log();
+            // FastLog::log();
         }
     }
 
