@@ -111,11 +111,11 @@
 
 // McPwm
 #define MCPWM_TAG                   "McPwm"
-#define MCPWM_TIMER_FREQ_HZ         ( (uint32_t) (80 * 1000 * 1000 ) )
+#define MCPWM_TIMER_FREQ_HZ         ( (uint32_t) (160 * 1000 * 1000 ) )
 #define MCPWM_TIMER_TICK_SEC        ((float) ( 1.0 / MCPWM_TIMER_FREQ_HZ ))
 #define MCPWM_TIMER_TICK_USEC       ((float) ( 1000.0 * 1000.0 * MCPWM_TIMER_TICK_SEC ))
 #define MCPWM_TIMER_TICKS           ( (u_int32_t) ( MCPWM_TIMER_FREQ_HZ / PWM_FREQ ) )
-#define MCPWM_MIN_PW_USEC           ( (u_int32_t) 5 )  
+#define MCPWM_MIN_PW_USEC           ( (u_int32_t) 2 )  
 #define MCPWM_MAX_PW_USEC           ( (u_int32_t) ( PWM_PERIOD_USEC - MCPWM_MIN_PW_USEC ) )
 #define MCPWM_MIN_PW_TICKS          ( ( uint32_t ) ( MCPWM_MIN_PW_USEC / MCPWM_TIMER_TICK_USEC ) )
 #define MCPWM_MAX_PW_TICKS          ( ( uint32_t ) ( MCPWM_MAX_PW_USEC / MCPWM_TIMER_TICK_USEC ) )
@@ -125,3 +125,5 @@
 #define MCPWM_B_LOW_GPIO_NUM        PWM_B_LOW_GPIO_NUM
 #define MCPWM_C_HIGH_GPIO_NUM       PWM_C_HIGH_GPIO_NUM
 #define MCPWM_C_LOW_GPIO_NUM        PWM_C_LOW_GPIO_NUM
+#define MCPWM_DEAD_TIME_USEC        ( (float) 0.25 )
+#define MCPWM_DEAD_TIME_TICKS       ( (uint32_t) ( MCPWM_DEAD_TIME_USEC / MCPWM_TIMER_TICK_USEC ) )

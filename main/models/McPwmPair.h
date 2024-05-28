@@ -37,6 +37,7 @@ class McPwmPair{
         void _setPeriodStartAction();
         void _setLeadingEdgeAction();
         void _setTrailingEdgeAction();
+        void _setDeadTimeAndInvertGenB();
         
         static mcpwm_timer_config_t _timerConfig;
         static mcpwm_operator_config_t _operatorConfig;

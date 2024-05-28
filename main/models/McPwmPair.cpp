@@ -87,6 +87,7 @@ void McPwmPair::_setup(){
     _setPeriodStartAction();
     _setLeadingEdgeAction();
     _setTrailingEdgeAction();
+    _setDeadTimeAndInvertGenB();
 
     ESP_ERROR_CHECK(mcpwm_timer_enable(_timer));
 }
@@ -119,15 +120,6 @@ void McPwmPair::_setPeriodStartAction(){
                         MCPWM_GEN_ACTION_LOW
                     )
     ));
-
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_timer_event(
-                    _loGenerator,
-                    MCPWM_GEN_TIMER_EVENT_ACTION(
-                        MCPWM_TIMER_DIRECTION_UP,
-                        MCPWM_TIMER_EVENT_EMPTY,
-                        MCPWM_GEN_ACTION_HIGH
-                    )
-    ));
 }
 
 void McPwmPair::_setLeadingEdgeAction(){
@@ -137,14 +129,6 @@ void McPwmPair::_setLeadingEdgeAction(){
                         MCPWM_TIMER_DIRECTION_UP,
                         _leadComparator,
                         MCPWM_GEN_ACTION_HIGH
-                    )
-    ));
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(
-                    _loGenerator,
-                    MCPWM_GEN_COMPARE_EVENT_ACTION(
-                        MCPWM_TIMER_DIRECTION_UP,
-                        _leadComparator,
-                        MCPWM_GEN_ACTION_LOW
                     )
     ));
 }
@@ -158,12 +142,25 @@ void McPwmPair::_setTrailingEdgeAction(){
                         MCPWM_GEN_ACTION_LOW
                     )
     ));
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(
-                    _loGenerator,
-                    MCPWM_GEN_COMPARE_EVENT_ACTION(
-                        MCPWM_TIMER_DIRECTION_UP,
-                        _trailComparator,
-                        MCPWM_GEN_ACTION_HIGH
-                    )
-    ));
 }   
+
+void McPwmPair::_setDeadTimeAndInvertGenB(){
+
+    mcpwm_dead_time_config_t leadDeadTime = {
+        .posedge_delay_ticks = MCPWM_DEAD_TIME_TICKS,
+        .negedge_delay_ticks = 0,
+        .flags = {
+            .invert_output = false
+        }
+    };
+    ESP_ERROR_CHECK(mcpwm_generator_set_dead_time(_hiGenerator, _hiGenerator, &leadDeadTime));
+
+    mcpwm_dead_time_config_t trailDeadTime = {
+        .posedge_delay_ticks = 0,
+        .negedge_delay_ticks = MCPWM_DEAD_TIME_TICKS,
+        .flags = {
+            .invert_output = true
+        }
+    };
+    ESP_ERROR_CHECK(mcpwm_generator_set_dead_time(_hiGenerator, _loGenerator, &trailDeadTime));
+}

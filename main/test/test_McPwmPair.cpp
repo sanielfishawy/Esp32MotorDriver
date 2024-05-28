@@ -13,7 +13,8 @@ extern "C" {
     static void test_mcPwmPair() {
         McPwmPair* mcPwmPair = new McPwmPair(0, MCPWM_A_HIGH_GPIO_NUM, MCPWM_A_LOW_GPIO_NUM);
         mcPwmPair->start();
-        mcPwmPair->pulse(0.25, 0.25);
+        // mcPwmPair->pulse(0.25, 0.25);
+        mcPwmPair->pulse(0.0, 10.0);
     }
 
     static void test_mcAppConfig() {
@@ -25,6 +26,7 @@ extern "C" {
         ESP_LOGI("test_mcAppConfig", "MAX_PW_USEC: %" PRIu32, MCPWM_MAX_PW_USEC );
         ESP_LOGI("test_mcAppConfig", "MIN_PW_TICKS: %" PRIu32, MCPWM_MIN_PW_TICKS );
         ESP_LOGI("test_mcAppConfig", "MAX_PW_TICKS: %" PRIu32, MCPWM_MAX_PW_TICKS );
+        ESP_LOGI("test_mcAppConfig", "DEAD_TIME_TICKS: %" PRIu32, MCPWM_DEAD_TIME_TICKS );
     }
 
     void run_test_McPwmPair(){
