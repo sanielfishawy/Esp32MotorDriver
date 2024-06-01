@@ -19,6 +19,11 @@ class McPwmPair{
         );
         void start();
         void pulse(float lead, float pulseWidth);
+        void setActive();
+        void setFloat();
+        bool getIsActive();
+        bool getIsFloating();
+        mcpwm_timer_handle_t getTimer();
     
     private:
         int _groupId;
@@ -33,11 +38,13 @@ class McPwmPair{
         mcpwm_generator_config_t _hiGeneratorConfig;
         mcpwm_generator_config_t _loGeneratorConfig;
 
+        bool _isActive;
+        
         void _setup();
         void _setPeriodStartAction();
         void _setLeadingEdgeAction();
         void _setTrailingEdgeAction();
-        void _setDeadTimeAndInvertGenB();
+        void _setDeadTimeAndInvertGenB(bool invert=true);
         
         static mcpwm_timer_config_t _timerConfig;
         static mcpwm_operator_config_t _operatorConfig;

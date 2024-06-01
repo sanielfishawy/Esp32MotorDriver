@@ -33,7 +33,8 @@ McPwmPair::McPwmPair(
             .pull_up = false,
             .pull_down = false
         }
-    })
+    }),
+    _isActive(false)
 {
     _setup();
 };
@@ -76,6 +77,7 @@ mcpwm_comparator_config_t McPwmPair::_comparatorConfig = {
 
 
 void McPwmPair::_setup(){
+    ESP_LOGI(MCPWM_TAG, "setup()");
     ESP_ERROR_CHECK(mcpwm_new_timer(&_timerConfig, &_timer));
     ESP_ERROR_CHECK(mcpwm_new_operator(&_operatorConfig, &_operator));
     ESP_ERROR_CHECK(mcpwm_operator_connect_timer(_operator, _timer));
@@ -88,12 +90,13 @@ void McPwmPair::_setup(){
     _setLeadingEdgeAction();
     _setTrailingEdgeAction();
     _setDeadTimeAndInvertGenB();
-
-    ESP_ERROR_CHECK(mcpwm_timer_enable(_timer));
 }
 
 void McPwmPair::start(){
+    ESP_LOGI(MCPWM_TAG, "start()");
+    ESP_ERROR_CHECK(mcpwm_timer_enable(_timer));
     ESP_ERROR_CHECK(mcpwm_timer_start_stop(_timer, MCPWM_TIMER_START_NO_STOP));
+    _isActive = true;
 }
 
 void McPwmPair::pulse(float lead, float pulseWidth){
@@ -144,8 +147,8 @@ void McPwmPair::_setTrailingEdgeAction(){
     ));
 }   
 
-void McPwmPair::_setDeadTimeAndInvertGenB(){
-
+void McPwmPair::_setDeadTimeAndInvertGenB(bool invert){
+    ESP_LOGI(MCPWM_TAG, "invert: %d", invert);
     mcpwm_dead_time_config_t leadDeadTime = {
         .posedge_delay_ticks = MCPWM_DEAD_TIME_TICKS,
         .negedge_delay_ticks = 0,
@@ -159,8 +162,32 @@ void McPwmPair::_setDeadTimeAndInvertGenB(){
         .posedge_delay_ticks = 0,
         .negedge_delay_ticks = MCPWM_DEAD_TIME_TICKS,
         .flags = {
-            .invert_output = true
+            .invert_output = invert
         }
     };
     ESP_ERROR_CHECK(mcpwm_generator_set_dead_time(_hiGenerator, _loGenerator, &trailDeadTime));
+}
+
+mcpwm_timer_handle_t McPwmPair::getTimer(){
+    return _timer;
+}
+
+void McPwmPair::setActive(){
+    _setDeadTimeAndInvertGenB();
+    ESP_ERROR_CHECK(mcpwm_generator_set_force_level(_hiGenerator, -1, 1));
+    _isActive = true;
+}
+
+void McPwmPair::setFloat(){
+    _setDeadTimeAndInvertGenB(false);
+    ESP_ERROR_CHECK(mcpwm_generator_set_force_level(_hiGenerator, 0, 1));
+    _isActive = false;
+}
+
+bool McPwmPair::getIsActive(){
+    return _isActive;
+}
+
+bool McPwmPair::getIsFloating(){
+    return !_isActive;
 }

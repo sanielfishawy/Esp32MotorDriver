@@ -23,6 +23,8 @@ extern "C"{
         // run_test_WritePosition();
         // run_test_TelemetryToFile();
         // run_test_Spiffs();
-        run_test_McPwmPair();
+        // run_test_McPwmPair();
+        run_test_PwmPairs();
+        // run_test_SvPwm();
     }
 }

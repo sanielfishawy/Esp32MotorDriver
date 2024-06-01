@@ -11,10 +11,15 @@ extern "C" {
 extern "C" {
 
     static void test_mcPwmPair() {
-        McPwmPair* mcPwmPair = new McPwmPair(0, MCPWM_A_HIGH_GPIO_NUM, MCPWM_A_LOW_GPIO_NUM);
-        mcPwmPair->start();
-        // mcPwmPair->pulse(0.25, 0.25);
-        mcPwmPair->pulse(0.0, 10.0);
+        McPwmPair pair(0, MCPWM_A_HIGH_GPIO_NUM, MCPWM_A_LOW_GPIO_NUM);
+        pair.start();
+        pair.pulse(0.25, 0.25);
+        pair.setFloat();
+        TEST_ASSERT_TRUE(pair.getIsFloating());
+        pair.setActive();
+        TEST_ASSERT_TRUE(pair.getIsActive());
+        // pair.pulse(0.25, 0.25);
+        // mcPwmPair->pulse(0.0, 10.0);
     }
 
     static void test_mcAppConfig() {

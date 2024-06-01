@@ -8,10 +8,11 @@
 #include "esp_timer.h"
 
 #include "appConfig.h"
-#include "PwmPair.h"
-#include "PwmInterruptPin.h"
+#include "McPwmPair.h"
+#include "McPwmInterrupt.h"
 #include "FastLog.h"
-#include "WaveformGen.h"
+#include "PhaseGen.h"
+#include "SvPwm.h"
 
 #define PWM_PAIRS_TAG "PwmPairs: "
 
@@ -21,23 +22,26 @@ class PwmPairs{
     public:
         static void setup();
         static void startPwm();
-        static void handlePwmInterrupt();
-        static void setPairADuty(float duty);
-        static void setPairBDuty(float duty);
-        static void setPairCDuty(float duty);
+        static void pairAPulse(float lead, float pulseWidth);
+        static void pairBPulse(float lead, float pulseWidth);
+        static void pairCPulse(float lead, float pulseWidth);
         static void setActive();
         static void setFloat();
         static bool getIsActive();
         static bool getIsFloating();
+        static void setAmplitudeFract(float amplitudeFract);
+        static float getAmplitudeFract();
+        static void handleInterrupt();
 
     private:
         static bool _isSetup;
+        static void _syncPairs();
+        static void _setupInterrupt();
         static bool _isStarted;
-        static PwmPair _pairA;
-        static PwmPair _pairB;
-        static PwmPair _pairC;
-        static float _phaseOffsetRadB;
-        static float _phaseOffsetRadC;
+        static McPwmPair _pairA;
+        static McPwmPair _pairB;
+        static McPwmPair _pairC;
+        static float _amplitudeFract;
 };
 
 #endif  // __cplusplus

@@ -9,6 +9,7 @@ set (
                 "models/PwmInterrupt.cpp"
                 "models/TestOutputPin.cpp"
                 "models/PwmInterruptPin.cpp"
+                "models/McPwmInterrupt.cpp"
                 "models/Adc.cpp"
                 "models/PhaseGenTimer.cpp"
                 "models/PhaseGen.cpp"
@@ -21,6 +22,7 @@ set (
                 "models/FastLog.cpp"
                 "models/ChargePump.cpp"
                 "models/McPwmPair.cpp"
+                "models/SvPwm.cpp"
                 "http/WifiConnect.cpp"
                 "http/NvsFlash.cpp"
                 "http/HttpServer.cpp"
@@ -85,6 +87,8 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_TelemetryToFile.cpp"
                         "test/test_Spiffs.cpp"
                         "test/test_McPwmPair.cpp"
+                        "test/test_PwmPairs.cpp"
+                        "test/test_SvPwm.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}
