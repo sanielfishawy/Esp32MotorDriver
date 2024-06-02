@@ -5,10 +5,9 @@ bool VFD::_isStarted = false;
 
 void VFD::setup(){
     if(_isSetup) return;
-    WaveformGen::setup();
-    WaveformGen::setFreqHz(5);
-    WaveformGen::setAmplitudeFract(0.1);
-    WaveformGen::setWaveform(WG_SINE_WAVE);
+    PhaseGen::setup();
+    PhaseGen::setFreqHz(60);
+    PwmPairs::setAmplitudeFract(1);
 
     PwmPairs::setup();
     
@@ -18,26 +17,26 @@ void VFD::setup(){
 void VFD::start(){
     if(_isStarted) return;
 
-    WaveformGen::start();
+    PhaseGen::start();
     PwmPairs::startPwm();
 
     _isStarted = true;
 }
 
 void VFD::setFreqHz(float freqHz){
-    WaveformGen::setFreqHz(freqHz);
+    PhaseGen::setFreqHz(freqHz);
 }
 
 void VFD::setAmplitudeFract(float amplitudeFract){
-    WaveformGen::setAmplitudeFract(amplitudeFract);
+    PwmPairs::setAmplitudeFract(amplitudeFract);
 }
 
 float VFD::getFreqHz(){
-    return WaveformGen::getFreqHz();
+    return PhaseGen::getFreqHz();
 }
 
 float VFD::getAmplitudeFract(){
-    return WaveformGen::getAmplitudeFract();
+    return PwmPairs::getAmplitudeFract();
 }
 
 void VFD::setActive(){

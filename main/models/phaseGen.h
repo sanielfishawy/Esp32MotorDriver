@@ -25,6 +25,8 @@ class PhaseGen{
         static float getPhaseRad();
         static int getPeriodTicks();
         static uint64_t getTimerTick();
+        static float getPeriodSec();
+        static float getFreqHz();
 
     private:
         static const char *_logTag;

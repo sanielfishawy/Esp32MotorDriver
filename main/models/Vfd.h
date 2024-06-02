@@ -2,9 +2,7 @@
 
 #include "appConfig.h"
 #include "Adc.h"
-#include "WaveformGen.h"
 #include "PwmPairs.h"
-#include "PwmInterruptPin.h"
 
 #ifdef __cplusplus
 

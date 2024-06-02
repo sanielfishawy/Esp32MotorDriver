@@ -2,7 +2,7 @@
 
 bool  PwmPairs::_isSetup = false;
 bool  PwmPairs::_isStarted = false;
-float PwmPairs::_amplitudeFract = 0;
+float PwmPairs::_amplitudeFract = 1;
 
 McPwmPair PwmPairs::_pairA(
     0,
@@ -35,11 +35,12 @@ void PwmPairs::_syncPairs(){
     //          +->timer1
     // timer0---+
     //          +->timer2
+    ESP_LOGI(PWM_PAIRS_TAG, "Syncing timers");
     mcpwm_sync_handle_t syncSource = NULL;
     mcpwm_timer_sync_src_config_t syncConfig = {
         .timer_event = MCPWM_TIMER_EVENT_EMPTY, 
         .flags = {
-            .propagate_input_sync = 1,
+            .propagate_input_sync = 0,
         },
     };
     ESP_ERROR_CHECK(mcpwm_new_timer_sync_src(_pairA.getTimer(), &syncConfig, &syncSource));
@@ -98,9 +99,9 @@ bool PwmPairs::getIsFloating(){
 }
 
 void PwmPairs::handleInterrupt(){
-    static float duty = 0;
-    FastLog::set(duty++);
-    return;
+    // static float duty = 0;
+    // FastLog::set(duty++);
+    // return;
 
     float phase = PhaseGen::getPhaseRad();
     SvPwm svPwm(phase, _amplitudeFract);
@@ -109,6 +110,10 @@ void PwmPairs::handleInterrupt(){
     _pairA.pulse(pulses.aPulse.edge, pulses.aPulse.pw);
     _pairB.pulse(pulses.bPulse.edge, pulses.bPulse.pw);
     _pairC.pulse(pulses.cPulse.edge, pulses.cPulse.pw);
+
+    // _pairA.pulse(0.25, 0.5);
+    // _pairB.pulse(0.25, 0.5);
+    // _pairC.pulse(0.25, 0.5);
 }
 
 void PwmPairs::setAmplitudeFract(float amplitudeFract){

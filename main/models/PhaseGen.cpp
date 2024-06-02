@@ -41,9 +41,17 @@ void PhaseGen::setPeriodSec(float periodSec){
     _setPeriodTicks(ticks);
 }
 
+float PhaseGen::getPeriodSec(){
+    return (float) getPeriodTicks() * PG_TIMER_PERIOD_SEC;
+}
+
 void PhaseGen::setFreqHz(float freq){
     float periodSec = 1.0 / freq;
     setPeriodSec(periodSec);
+}
+
+float PhaseGen::getFreqHz(){
+    return 1.0 / getPeriodSec();
 }
 
 float PhaseGen::getPhaseRad(){
