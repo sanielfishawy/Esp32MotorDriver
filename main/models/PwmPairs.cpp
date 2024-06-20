@@ -2,7 +2,7 @@
 
 bool  PwmPairs::_isSetup = false;
 bool  PwmPairs::_isStarted = false;
-float PwmPairs::_amplitudeFract = 1;
+float PwmPairs::_amplitudeFract = 0.5;
 
 McPwmPair PwmPairs::_pairA(
     0,

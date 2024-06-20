@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "esp_log.h"
+#include "cJSON.h"
 
 #define SV_PWM_TAG "SvPwm"
 
@@ -49,6 +50,7 @@ class SvPwm{
         void show();
         void pulses(SvPwmPulses* pulses);
         void getAll(SvPwmAll* all);
+        static void fullRevolutionAsJson(int numPoints, cJSON* arr);
 
     private:
         static constexpr float SQRT3      = 1.73205080757f;

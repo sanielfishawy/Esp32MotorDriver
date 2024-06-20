@@ -265,3 +265,24 @@ void SvPwm::getAll(SvPwmAll *all){
     cPulse(&all->cPulse);
     pulses(&all->pulses);
 }
+
+void SvPwm::fullRevolutionAsJson(int numPoints, cJSON *arr){
+    SvPwmPulses pulses;
+    float theta = 0;
+    float thetaStep = (2 * M_PI) / numPoints;
+
+    for(int i = 0; i < numPoints; i++){
+        SvPwm svPwm(theta, 1);
+        svPwm.pulses(&pulses);
+        cJSON *entry = cJSON_CreateObject();
+        cJSON_AddNumberToObject(entry, "theta", theta);
+        cJSON_AddNumberToObject(entry, "aEdge", pulses.aPulse.edge);
+        cJSON_AddNumberToObject(entry, "aPw", pulses.aPulse.pw);
+        cJSON_AddNumberToObject(entry, "bEdge", pulses.bPulse.edge);
+        cJSON_AddNumberToObject(entry, "bPw", pulses.bPulse.pw);
+        cJSON_AddNumberToObject(entry, "cEdge", pulses.cPulse.edge);
+        cJSON_AddNumberToObject(entry, "cPw", pulses.cPulse.pw);
+        cJSON_AddItemToArray(arr, entry);
+        theta += thetaStep;
+    }
+}

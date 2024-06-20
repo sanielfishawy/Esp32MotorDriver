@@ -23,6 +23,7 @@ void HttpServer::_setupMdns(){
 
 httpd_handle_t HttpServer::_start_webserver(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
+    config.max_uri_handlers = HS_MAX_URI_HANDLERS;
     httpd_handle_t server = NULL;
     if (httpd_start(&server, &config) == ESP_OK) {
         for (auto &uri : Routes::uris) {

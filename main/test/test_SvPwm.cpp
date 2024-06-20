@@ -4,8 +4,9 @@ extern "C" {
 
 #include <math.h>
 #include "esp_timer.h"
-#include "../models/SvPwm.h"
 #include "esp_log.h"
+
+#include "../models/SvPwm.h"
 
 extern "C" {
 
@@ -154,9 +155,19 @@ extern "C" {
         TEST_ASSERT_FLOAT_WITHIN(.001, 0.5, all.pulses.cPulse.pw);
     }
 
+    static void test_fullRevolutionAsJson(){
+        cJSON *arr = cJSON_CreateArray(); 
+        SvPwm::fullRevolutionAsJson(100, arr);
+        char *str = cJSON_Print(arr);
+        ESP_LOGI(SV_PWM_TAG, "%s", str);
+        cJSON_Delete(arr);
+        free(str);
+    }
+
     void run_test_SvPwm(){
         UNITY_BEGIN();
         RUN_TEST(test_svPwm);
+        RUN_TEST(test_fullRevolutionAsJson);
         UNITY_END();
     }
 

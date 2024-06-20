@@ -3,6 +3,7 @@
 #include "appConfig.h"
 #include "Adc.h"
 #include "PwmPairs.h"
+#include "RotorSpeed.h"
 
 #ifdef __cplusplus
 
@@ -20,6 +21,8 @@ class VFD{
         static void setFloat();
         static bool getIsActive();
         static bool getIsFloating();
+        static float getRotorSpeedHz();
+        static float getElectricalEquivalentSpeedHz();
 
     private:
         static bool _isSetup;

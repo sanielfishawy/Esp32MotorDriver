@@ -48,5 +48,17 @@ std::vector<httpd_uri_t> Routes::uris = {
         .method    = HTTP_GET,
         .handler   = RouteHandlers::getIsActiveHandler,
         .user_ctx  = nullptr,
+    },
+    {
+        .uri      = "/getFile",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getFileHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/svPwm",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getSvPwmHandler,
+        .user_ctx = nullptr,
     }
 };

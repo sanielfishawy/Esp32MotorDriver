@@ -6,6 +6,9 @@
 #include "driver/gpio.h"
 #include "esp_adc/adc_oneshot.h"
 
+// General
+#define MOTOR_POLES                 ( (int) 4 )
+
 // PwmInterruptPin
 #define PWM_INTR_PIN_OUT_GPIO_NUM   GPIO_NUM_47
 #define PWM_INTR_PIN_IN_GPIO_NUM    GPIO_NUM_48
@@ -104,6 +107,7 @@
 #define HS_MDNS_INSTANCE_NAME   "Esp32 Motor Controller Http Server"
 #define HS_MAX_URI_LENGTH       128
 #define HS_MAX_PARAM_LENGTH     64
+#define HS_MAX_URI_HANDLERS     16
 
 // TelemetryToFile
 #define TEL_TAG                 "TelemetryToFile"
@@ -127,3 +131,9 @@
 #define MCPWM_C_LOW_GPIO_NUM        PWM_C_LOW_GPIO_NUM
 #define MCPWM_DEAD_TIME_USEC        ( (float) 0.25 )
 #define MCPWM_DEAD_TIME_TICKS       ( (uint32_t) ( MCPWM_DEAD_TIME_USEC / MCPWM_TIMER_TICK_USEC ) )
+
+// RotorSpeed
+#define RS_TAG                  "RotorSpeed"
+#define RS_QUAD_A_GPIO_NUM      GPIO_NUM_11
+#define RS_QUAD_B_GPIO_NUM      GPIO_NUM_12
+#define RS_QAUD_TICKS_PER_REV   48

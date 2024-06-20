@@ -6,10 +6,11 @@ bool VFD::_isStarted = false;
 void VFD::setup(){
     if(_isSetup) return;
     PhaseGen::setup();
-    PhaseGen::setFreqHz(60);
-    PwmPairs::setAmplitudeFract(1);
+    PhaseGen::setFreqHz(10);
+    PwmPairs::setAmplitudeFract(0.2);
 
     PwmPairs::setup();
+    RotorSpeed::setup();
     
     _isSetup = true;
 }
@@ -50,6 +51,15 @@ void VFD::setFloat(){
 bool VFD::getIsActive(){
     return PwmPairs::getIsActive();
 }
+
 bool VFD::getIsFloating(){
     return PwmPairs::getIsFloating();
+}
+
+float VFD::getRotorSpeedHz(){
+    return RotorSpeed::getSpeedHz();
+}   
+
+float VFD::getElectricalEquivalentSpeedHz(){
+    return RotorSpeed::getElectricalEquivalentSpeedHz();
 }

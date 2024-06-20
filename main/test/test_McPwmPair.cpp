@@ -37,7 +37,7 @@ extern "C" {
     void run_test_McPwmPair(){
         UNITY_BEGIN();
         RUN_TEST(test_mcPwmPair);
-        // RUN_TEST(test_mcAppConfig);
+        RUN_TEST(test_mcAppConfig);
         UNITY_END();
     }
 

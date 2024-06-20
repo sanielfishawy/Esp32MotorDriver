@@ -5,6 +5,8 @@ esp_err_t RouteHandlers::rootHandler(httpd_req_t *req){
     cJSON_AddBoolToObject(responseObj, "isActive", VFD::getIsActive());
     cJSON_AddNumberToObject(responseObj, "amplitudeFract", VFD::getAmplitudeFract());
     cJSON_AddNumberToObject(responseObj, "freqHz", VFD::getFreqHz());
+    cJSON_AddNumberToObject(responseObj, "rotorSpeedHz", VFD::getRotorSpeedHz());
+    cJSON_AddNumberToObject(responseObj, "electricalEquivalentSpeedHz", VFD::getElectricalEquivalentSpeedHz());
     return _sendResponse(req, responseObj);
 }
 
@@ -67,6 +69,22 @@ esp_err_t RouteHandlers::getIsActiveHandler(httpd_req_t *req){
     return _sendResponse(req, responseObj);
 }
 
+esp_err_t RouteHandlers::getFileHandler(httpd_req_t *req){
+    int filenameSize = 30;
+    char filename[filenameSize];
+    _getStringParam(req, "filename", filename, filenameSize);
+    ESP_LOGI("getFileHandler", "filename: %s", filename);
+    httpd_resp_sendstr(req, "Hello World");
+    return ESP_OK;
+}
+
+esp_err_t RouteHandlers::getSvPwmHandler(httpd_req_t *req){
+    cJSON *resultObject = cJSON_CreateArray();
+    SvPwm::fullRevolutionAsJson(100, resultObject);  
+    cJSON *responseObj = _getOkResponseObject(resultObject);
+    return _sendResponse(req, responseObj);
+}
+
 cJSON *RouteHandlers::_getErrorResponseObject(const char *message) {
     cJSON *root = cJSON_CreateObject();
     cJSON_AddBoolToObject(root, "ok", false);
@@ -104,6 +122,20 @@ esp_err_t RouteHandlers::_sendResponse(httpd_req_t *req, cJSON *responseObj, con
     cJSON_Delete(responseObj);
 
     return result;
+}
+
+bool RouteHandlers::_getStringParam(httpd_req_t *req, const char *paramName, char *value, size_t valueSize) {
+    char uri_params[HS_MAX_URI_LENGTH] = {0};
+
+    httpd_req_get_url_query_str(req, uri_params, HS_MAX_URI_LENGTH);
+    esp_err_t err = httpd_query_key_value(uri_params, paramName, value, valueSize);
+    if (err == ESP_OK) {
+        return true;
+    }
+    const char *err_str = esp_err_to_name(err);
+    strncpy(value, err_str, valueSize);
+    value[valueSize - 1] = '\0';
+    return false;
 }
 
 bool RouteHandlers::_getFloatValueParam(httpd_req_t *req, float *value) {

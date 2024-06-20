@@ -12,6 +12,8 @@ set (
                 "models/FastLog.cpp"
                 "models/McPwmPair.cpp"
                 "models/SvPwm.cpp"
+                "models/Quadrature.cpp"
+                "models/RotorSpeed.cpp"
                 "http/WifiConnect.cpp"
                 "http/NvsFlash.cpp"
                 "http/HttpServer.cpp"

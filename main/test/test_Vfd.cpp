@@ -16,10 +16,6 @@ extern "C" {
         VFD::setFreqHz(5.0);
         VFD::setAmplitudeFract(0.1);
         VFD::start();
-        while(1){
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
-            // FastLog::log();
-        }
     }
 
     void run_test_Vfd(){

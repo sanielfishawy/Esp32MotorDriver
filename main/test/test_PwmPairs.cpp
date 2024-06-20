@@ -12,7 +12,7 @@ extern "C" {
 
     static void test_pwmPairs() {
         PhaseGen::setup();
-        PhaseGen::setFreqHz(60);
+        PhaseGen::setFreqHz(10);
         PhaseGen::start();  
         PwmPairs::setup();
         PwmPairs::startPwm();
