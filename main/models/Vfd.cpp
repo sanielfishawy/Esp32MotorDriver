@@ -63,3 +63,11 @@ float VFD::getRotorSpeedHz(){
 float VFD::getElectricalEquivalentSpeedHz(){
     return RotorSpeed::getElectricalEquivalentSpeedHz();
 }
+
+float VFD::getSlipFract(){
+    return getSlipHz() / getFreqHz();
+}
+
+float VFD::getSlipHz(){
+    return  getFreqHz() - RotorSpeed::getElectricalEquivalentSpeedHz();
+}

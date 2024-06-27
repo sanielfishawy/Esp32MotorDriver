@@ -7,6 +7,8 @@ esp_err_t RouteHandlers::rootHandler(httpd_req_t *req){
     cJSON_AddNumberToObject(responseObj, "freqHz", VFD::getFreqHz());
     cJSON_AddNumberToObject(responseObj, "rotorSpeedHz", VFD::getRotorSpeedHz());
     cJSON_AddNumberToObject(responseObj, "electricalEquivalentSpeedHz", VFD::getElectricalEquivalentSpeedHz());
+    cJSON_AddNumberToObject(responseObj, "slipHz", VFD::getSlipHz());
+    cJSON_AddNumberToObject(responseObj, "slipFract", VFD::getSlipFract());
     return _sendResponse(req, responseObj);
 }
 

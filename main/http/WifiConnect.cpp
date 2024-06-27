@@ -1,9 +1,5 @@
 #include "WifiConnect.h"
 
-#define DEFAULT_SSID "scoutandjagger"
-#define DEFAULT_PWD "ridgebacks"
-
-
 const char * WifiConnect::_logTag = "WifiConnect";
 bool WifiConnect::_isSetup = false;
 
@@ -50,8 +46,8 @@ void WifiConnect::_scan() {
     #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = "scoutandjagger",
-            .password = "ridgebacks",
+            .ssid = WIFI_SSID,
+            .password = WIFI_PWD,
             .scan_method = WIFI_FAST_SCAN,
             // .sort_method = WIFI_CONNECT_AP_BY_SIGNAL,
             // .threshold.rssi = DEFAULT_RSSI,

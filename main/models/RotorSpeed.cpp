@@ -28,5 +28,5 @@ float RotorSpeed::getSpeedHz(){
 }
 
 float RotorSpeed::getElectricalEquivalentSpeedHz(){
-    return 2.0 * getSpeedHz() / MOTOR_POLES;
+    return MOTOR_POLES * getSpeedHz() / 2.0;
 }

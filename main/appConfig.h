@@ -99,6 +99,8 @@
 #define CP_CHARGE_TIME_IN_PWM_DUTY_CYCLE        ( CP_CHARGE_TIME_USEC / PWM_PERIOD_USEC ) 
 
 // Wifi
+// #define WIFI_SSID   "pollionidesign"
+// #define WIFI_PWD    "par00502"
 #define WIFI_SSID   "scoutandjagger"
 #define WIFI_PWD    "ridgebacks"
 

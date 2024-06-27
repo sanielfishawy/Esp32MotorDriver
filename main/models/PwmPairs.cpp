@@ -111,9 +111,9 @@ void PwmPairs::handleInterrupt(){
     _pairB.pulse(pulses.bPulse.edge, pulses.bPulse.pw);
     _pairC.pulse(pulses.cPulse.edge, pulses.cPulse.pw);
 
-    // _pairA.pulse(0.25, 0.5);
-    // _pairB.pulse(0.25, 0.5);
-    // _pairC.pulse(0.25, 0.5);
+    // _pairA.pulse(0.375, 0.25);
+    // _pairB.pulse(0.375, 0.25);
+    // _pairC.pulse(0.375, 0.25);
 }
 
 void PwmPairs::setAmplitudeFract(float amplitudeFract){
