@@ -6,7 +6,7 @@ esp_err_t RouteHandlers::rootHandler(httpd_req_t *req){
     cJSON_AddNumberToObject(responseObj, "amplitudeFract", VFD::getAmplitudeFract());
     cJSON_AddNumberToObject(responseObj, "freqHz", VFD::getFreqHz());
     cJSON_AddNumberToObject(responseObj, "rotorSpeedHz", VFD::getRotorSpeedHz());
-    cJSON_AddNumberToObject(responseObj, "electricalEquivalentSpeedHz", VFD::getElectricalEquivalentSpeedHz());
+    cJSON_AddNumberToObject(responseObj, "electricalEquivalentSpeedHz", VFD::getRotorElectricalEquivalentSpeedHz());
     cJSON_AddNumberToObject(responseObj, "slipHz", VFD::getSlipHz());
     cJSON_AddNumberToObject(responseObj, "slipFract", VFD::getSlipFract());
     return _sendResponse(req, responseObj);
@@ -87,6 +87,31 @@ esp_err_t RouteHandlers::getSvPwmHandler(httpd_req_t *req){
     return _sendResponse(req, responseObj);
 }
 
+esp_err_t RouteHandlers::setDynamicMeasurementHandler(httpd_req_t *req){
+    cJSON *jsonObj = NULL;
+
+    esp_err_t err = _getPostJson(req, &jsonObj);
+    if (err != ESP_OK){
+        _sendResponse(req, _getErrorResponseObject("Error getting JSON from POST body"));
+        return err;
+    } 
+
+    err = Dynamic::setupMeasurementFromJson(jsonObj);
+    if (err != ESP_OK){
+        _sendResponse(req, _getErrorResponseObject("Error setting dynamic measurement. See logs for details."));
+        return err;
+    }
+    
+    _sendResponse(req, _getOkResponseObject(jsonObj));
+    return err;
+}
+
+esp_err_t RouteHandlers::getDynamicMeasurementHandler(httpd_req_t *req){
+    cJSON *measurement = Dynamic::getMeasurementJson();
+    cJSON *responseObj = _getOkResponseObject(measurement);
+    return _sendResponse(req, responseObj);
+}
+
 cJSON *RouteHandlers::_getErrorResponseObject(const char *message) {
     cJSON *root = cJSON_CreateObject();
     cJSON_AddBoolToObject(root, "ok", false);
@@ -96,6 +121,7 @@ cJSON *RouteHandlers::_getErrorResponseObject(const char *message) {
 
 cJSON *RouteHandlers::_getOkResponseObject(cJSON *resultObject) {
     cJSON *root = cJSON_CreateObject();
+    // ESP_LOGI(ROUTE_HANDLERS_TAG, "resultObject: %s", cJSON_Print(resultObject));
     cJSON_AddBoolToObject(root, "ok", true);
     cJSON_AddItemToObject(root, "results", resultObject);
     return root;
@@ -148,14 +174,14 @@ bool RouteHandlers::_getFloatValueParam(httpd_req_t *req, float *value) {
 
     if (httpd_query_key_value(uri_params, "value", param_value, sizeof(param_value)) == ESP_OK) {
         bool success;
-        *value = _parse_float(param_value, &success);
+        *value = _parseFloat(param_value, &success);
         if (success) return true;
         else return false;
     }
     return false;
 }
 
-float RouteHandlers::_parse_float(const char* str, bool* success) {
+float RouteHandlers::_parseFloat(const char* str, bool* success) {
     char* endptr;
     errno = 0;  
     float value = strtof(str, &endptr);
@@ -171,6 +197,56 @@ float RouteHandlers::_parse_float(const char* str, bool* success) {
 
     *success = true;
     return value;
+}
+
+esp_err_t _getPostData(httpd_req_t *req, char **buf) {
+    int totalLen = req->content_len;
+    int currLen = 0;
+    int received = 0;
+    *buf = (char *) malloc(totalLen + 1); // Plus one for null termination
+    if (*buf == NULL) {
+        ESP_LOGE(ROUTE_HANDLERS_TAG, "Failed to allocate memory for post buffer");
+        return ESP_ERR_NO_MEM;
+    }
+
+    while (currLen < totalLen) {
+        received = httpd_req_recv(req, *buf + currLen, totalLen - currLen);
+        if (received <= 0) { 
+            ESP_LOGE(ROUTE_HANDLERS_TAG, "Error getting post body data");
+            free(*buf);
+            return ESP_FAIL;
+        }
+        currLen += received;
+    }
+    (*buf)[totalLen] = '\0'; // Null-terminate the buffer
+    return ESP_OK;
+}
+
+esp_err_t RouteHandlers::_getJsonFromString(char **jsonStr, cJSON **json){
+
+    if (*jsonStr == NULL) {
+        ESP_LOGE(ROUTE_HANDLERS_TAG, "JSON string is NULL");
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    *json = cJSON_Parse(*jsonStr);
+    if (*json == NULL) {
+        ESP_LOGE(ROUTE_HANDLERS_TAG, "Error parsing JSON string");
+        return ESP_FAIL;
+    }
+
+    return ESP_OK;
+}
+
+esp_err_t RouteHandlers::_getPostJson(httpd_req_t *req, cJSON **json) {
+    char *jsonStr = NULL;
+    esp_err_t err = _getPostData(req, &jsonStr);
+    
+    if (err != ESP_OK) return err; // No mem allocated if error. 
+
+    err = _getJsonFromString(&jsonStr, json);
+    free(jsonStr); 
+    return err;
 }
 
 

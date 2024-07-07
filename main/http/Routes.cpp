@@ -60,5 +60,17 @@ std::vector<httpd_uri_t> Routes::uris = {
         .method   = HTTP_GET,
         .handler  = RouteHandlers::getSvPwmHandler,
         .user_ctx = nullptr,
-    }
+    },
+    {
+        .uri      = "/setDynamicMeasurement",
+        .method   = HTTP_POST,
+        .handler  = RouteHandlers::setDynamicMeasurementHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/getDynamicMeasurement",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getDynamicMeasurementHandler,
+        .user_ctx = nullptr,
+    },
 };

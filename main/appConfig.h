@@ -139,3 +139,6 @@
 #define RS_QUAD_A_GPIO_NUM      GPIO_NUM_11
 #define RS_QUAD_B_GPIO_NUM      GPIO_NUM_12
 #define RS_QAUD_TICKS_PER_REV   48
+
+// Dynamic
+#define DYN_TAG                 "Dynamic"

@@ -60,7 +60,7 @@ float VFD::getRotorSpeedHz(){
     return RotorSpeed::getSpeedHz();
 }   
 
-float VFD::getElectricalEquivalentSpeedHz(){
+float VFD::getRotorElectricalEquivalentSpeedHz(){
     return RotorSpeed::getElectricalEquivalentSpeedHz();
 }
 

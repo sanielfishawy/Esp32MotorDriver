@@ -22,12 +22,15 @@ set (
                 "telemetry/WritePosition.cpp"
                 "telemetry/TelemetryToFile.cpp"
                 "telemetry/Spiffs.cpp"
+                "tuning/Dynamic.cpp"
 )
 
 set (
         SHARED_INCLUDES
                 "."
                 "models"
+                "tuning"
+                "http"
 )
 
 set ( 
@@ -75,6 +78,8 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_McPwmPair.cpp"
                         "test/test_PwmPairs.cpp"
                         "test/test_SvPwm.cpp"
+                        "test/test_Dynamic.cpp"
+                        "test/test_Malloc.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

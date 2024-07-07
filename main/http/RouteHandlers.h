@@ -9,8 +9,11 @@
 
 #include "Vfd.h"
 #include "SvPwm.h"
+#include "Dynamic.h"
 
 #ifdef __cplusplus
+
+#define ROUTE_HANDLERS_TAG "RouteHandlers"
     
     class RouteHandlers{
         public:
@@ -24,6 +27,8 @@
             static esp_err_t getIsActiveHandler(httpd_req_t *req);
             static esp_err_t getFileHandler(httpd_req_t *req);
             static esp_err_t getSvPwmHandler(httpd_req_t *req);
+            static esp_err_t setDynamicMeasurementHandler(httpd_req_t *req);
+            static esp_err_t getDynamicMeasurementHandler(httpd_req_t *req);
         
         private:
             static esp_err_t _sendResponse(httpd_req_t *req, cJSON *responseObj, const char* status="200 OK");
@@ -33,8 +38,9 @@
             static cJSON *_getBoolResultObject(const char * key, bool value);
             static bool _getFloatValueParam(httpd_req_t *req, float *value);
             static bool _getStringParam(httpd_req_t *req, const char *paramName, char *value, size_t valueSize);
-            static float _parse_float(const char* str, bool* success);
-
+            static float _parseFloat(const char* str, bool* success);
+            static esp_err_t _getJsonFromString(char **jsonStr, cJSON **json);
+            static esp_err_t _getPostJson(httpd_req_t *req, cJSON **json);
     };
 
 #endif // __cplusplus

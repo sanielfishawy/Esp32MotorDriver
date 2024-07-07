@@ -22,7 +22,7 @@ class VFD{
         static bool getIsActive();
         static bool getIsFloating();
         static float getRotorSpeedHz();
-        static float getElectricalEquivalentSpeedHz();
+        static float getRotorElectricalEquivalentSpeedHz();
         static float getSlipHz();
         static float getSlipFract();
 

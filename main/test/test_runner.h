@@ -19,4 +19,6 @@ extern "C" {
     void run_test_McPwmPair();
     void run_test_SvPwm();
     void run_test_PwmPairs();
+    void run_test_Dynamic();
+    void run_test_Malloc();
 }
