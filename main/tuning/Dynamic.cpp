@@ -54,6 +54,9 @@ esp_err_t Dynamic::setupMeasurementFromJson(cJSON *measurement){
     _measurement.maxFreqHz = maxFreqHz->valuedouble;
     _measurement.slipFract = slipFract->valuedouble;
     _measurement.amplitudeFract = amplitudeFract->valuedouble;
+    _measurement.startTime = 0;
+    _measurement.endTime = 0;
+    ESP_LOGI(DYN_TAG, "setupMeasurementFromJson: minFreqHz: %f, maxFreqHz: %f, slipFract: %f, amplitudeFract: %f", _measurement.minFreqHz, _measurement.maxFreqHz, _measurement.slipFract, _measurement.amplitudeFract);
     return ESP_OK;
 }
 
@@ -75,7 +78,7 @@ cJSON *Dynamic::getMeasurementJson(){
 void Dynamic::setup(){
     if (_isSetup) return;
     VFD::setup();
-    VFD::setFreqHz(1.0);
+    VFD::setFreqHz(2.0);
     VFD::setAmplitudeFract(0.0);
     VFD::start();
     _setupTimer();
@@ -85,7 +88,7 @@ void Dynamic::setup(){
 void Dynamic::_setupTimer(){
     if (_timer != NULL) return;
     ESP_ERROR_CHECK(esp_timer_create(&_timerArgs, &_timer));
-    ESP_ERROR_CHECK(esp_timer_start_periodic(_timer, 1000 * 1000));
+    ESP_ERROR_CHECK(esp_timer_start_periodic(_timer, 1000 * 100));
 }
 
 bool Dynamic::_isReady(){
@@ -97,11 +100,13 @@ bool Dynamic::_isGoingToMin(){
 }
 
 bool Dynamic::_isNearMin(){
-    return abs(_freqWithSlip() - _measurement.minFreqHz) < 0.05;
+    return abs(_freqWithSlip() - _measurement.minFreqHz) < 0.8;
 }
 
 bool Dynamic::_isAtMin(){
-    return VFD::getFreqHz() == _measurement.minFreqHz;
+    bool atMin = VFD::getFreqHz() == _measurement.minFreqHz && VFD::getSlipFract() < 0.04;
+    // ESP_LOGI(DYN_TAG, "isAtMin: %d,  f: %f, s: %f, ", atMin, VFD::getFreqHz(), VFD::getSlipFract());
+    return atMin;
 }
 
 bool Dynamic::_isAboveMin(){
@@ -117,27 +122,39 @@ bool Dynamic::_isAtMax(){
 }
 
 float Dynamic::_freqWithSlip(){
-    return _rotorFreq() * ( 1 + _measurement.slipFract);
+    float fws = _rotorFreq() * ( 1 + _measurement.slipFract);
+    if (fws < 2) fws = 2;
+    return fws;
 }
 
 float Dynamic::_rotorFreq(){
     return VFD::getRotorElectricalEquivalentSpeedHz();
 }
 
+float Dynamic::_rotorSlipFract(){
+    return VFD::getSlipFract();
+}
+
 void Dynamic::_accelerate(){
-    VFD::setFreqHz(_freqWithSlip());
+    float fws = _freqWithSlip();
+    VFD::setFreqHz(fws);
     VFD::setAmplitudeFract(_measurement.amplitudeFract);
+    // ESP_LOGI(DYN_TAG, "accelerate: freqHz: %f, amplitudeFract: %f", fws, _measurement.amplitudeFract);
 }
 
 void Dynamic::_coast(){
-    VFD::setFreqHz(_freqWithSlip());
+    float fws = _freqWithSlip();
+    VFD::setFreqHz(fws);
     VFD::setAmplitudeFract(0.0);
+    // ESP_LOGI(DYN_TAG, "coast: freqHz: %f, amplitudeFract: %f", fws, 0.0);
 }
 
 void IRAM_ATTR Dynamic::_handleInterrupt(void *arg){
-    ESP_LOGI(DYN_TAG, "_handleInterrupt");
-    return;
-    if (!_isReady()) return;
+    // ESP_LOGI(DYN_TAG, "_handleInterrupt");
+    if (!_isReady()){
+        _coast();
+        return;
+    } 
 
     if (_isGoingToMin()){
         _handleGoingToMin();
@@ -148,29 +165,36 @@ void IRAM_ATTR Dynamic::_handleInterrupt(void *arg){
 }
 
 void Dynamic::_handleGoingToMin(){
+    // ESP_LOGI(DYN_TAG, "_handleGoingToMin");
     if (_isAtMin()){
+        // ESP_LOGI(DYN_TAG, "at min");
         _measurement.startTime = esp_timer_get_time();
         _accelerate();
         return;
     }
     if (_isNearMin()){
+        // ESP_LOGI(DYN_TAG, "near min");
         VFD::setFreqHz(_measurement.minFreqHz);
         VFD::setAmplitudeFract(_measurement.amplitudeFract);
         return;
     }
     if (_isAboveMin()){
+        // ESP_LOGI(DYN_TAG, "above min");
         _coast();
         return;
     }
     if (_isBelowMin()){
+        // ESP_LOGI(DYN_TAG, "below min");
         _accelerate();
         return;
     }
 }
 
 void Dynamic::_handleAccelerating(){
+    // ESP_LOGI(DYN_TAG, "_handleAccelerating");
     if(_isAtMax()){
-        _measurement.endTime = esp_timer_get_time();
+        // ESP_LOGI(DYN_TAG, "at max");
+        if (_measurement.endTime == 0) _measurement.endTime = esp_timer_get_time();
         VFD::setFreqHz(_measurement.maxFreqHz);
         VFD::setAmplitudeFract(_measurement.amplitudeFract);
         return;

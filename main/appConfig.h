@@ -131,7 +131,7 @@
 #define MCPWM_B_LOW_GPIO_NUM        PWM_B_LOW_GPIO_NUM
 #define MCPWM_C_HIGH_GPIO_NUM       PWM_C_HIGH_GPIO_NUM
 #define MCPWM_C_LOW_GPIO_NUM        PWM_C_LOW_GPIO_NUM
-#define MCPWM_DEAD_TIME_USEC        ( (float) 0.25 )
+#define MCPWM_DEAD_TIME_USEC        ( (float) 2.0 )
 #define MCPWM_DEAD_TIME_TICKS       ( (uint32_t) ( MCPWM_DEAD_TIME_USEC / MCPWM_TIMER_TICK_USEC ) )
 
 // RotorSpeed
@@ -142,3 +142,9 @@
 
 // Dynamic
 #define DYN_TAG                 "Dynamic"
+
+// Torque
+#define TORQUE_TAG              "Torque"
+#define TORQUE_ADC_UNIT         ADC_UNIT_1
+#define TORQUE_ADC_CHANNEL      ADC_CHANNEL_0
+#define TORQUE_ADC_GPIO_PIN     GPIO_NUM_1

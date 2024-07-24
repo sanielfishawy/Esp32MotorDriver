@@ -73,4 +73,10 @@ std::vector<httpd_uri_t> Routes::uris = {
         .handler  = RouteHandlers::getDynamicMeasurementHandler,
         .user_ctx = nullptr,
     },
+    {
+        .uri      = "/getTorque",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getTorqueHandler,
+        .user_ctx = nullptr,
+    },
 };

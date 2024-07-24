@@ -21,4 +21,5 @@ extern "C" {
     void run_test_PwmPairs();
     void run_test_Dynamic();
     void run_test_Malloc();
+    void run_test_Torque();
 }

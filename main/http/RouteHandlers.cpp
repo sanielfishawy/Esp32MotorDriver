@@ -92,18 +92,27 @@ esp_err_t RouteHandlers::setDynamicMeasurementHandler(httpd_req_t *req){
 
     esp_err_t err = _getPostJson(req, &jsonObj);
     if (err != ESP_OK){
-        _sendResponse(req, _getErrorResponseObject("Error getting JSON from POST body"));
+        if (jsonObj != NULL) cJSON_Delete(jsonObj); 
+        _sendResponse(req, _getErrorResponseObject("Error getting JSON from POST body"), "400 Bad Request");
         return err;
     } 
 
     err = Dynamic::setupMeasurementFromJson(jsonObj);
     if (err != ESP_OK){
-        _sendResponse(req, _getErrorResponseObject("Error setting dynamic measurement. See logs for details."));
+        if (jsonObj != NULL) cJSON_Delete(jsonObj); 
+        _sendResponse(req, _getErrorResponseObject("Error setting dynamic measurement. See ESP logs for details."), "400 Bad Request");
         return err;
     }
     
     _sendResponse(req, _getOkResponseObject(jsonObj));
     return err;
+}
+
+esp_err_t RouteHandlers::getTorqueHandler(httpd_req_t *req){
+    int torque = Torque::getTorque();
+    cJSON *resultObject = _getFloatResultObject("torque", torque);
+    cJSON *responseObj = _getOkResponseObject(resultObject);
+    return _sendResponse(req, responseObj);
 }
 
 esp_err_t RouteHandlers::getDynamicMeasurementHandler(httpd_req_t *req){

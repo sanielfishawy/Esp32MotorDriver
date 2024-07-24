@@ -23,6 +23,7 @@ set (
                 "telemetry/TelemetryToFile.cpp"
                 "telemetry/Spiffs.cpp"
                 "tuning/Dynamic.cpp"
+                "tuning/Torque.cpp"
 )
 
 set (
@@ -80,6 +81,7 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_SvPwm.cpp"
                         "test/test_Dynamic.cpp"
                         "test/test_Malloc.cpp"
+                        "test/test_Torque.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

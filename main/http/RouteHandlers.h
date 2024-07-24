@@ -10,6 +10,7 @@
 #include "Vfd.h"
 #include "SvPwm.h"
 #include "Dynamic.h"
+#include "Torque.h"
 
 #ifdef __cplusplus
 
@@ -29,6 +30,7 @@
             static esp_err_t getSvPwmHandler(httpd_req_t *req);
             static esp_err_t setDynamicMeasurementHandler(httpd_req_t *req);
             static esp_err_t getDynamicMeasurementHandler(httpd_req_t *req);
+            static esp_err_t getTorqueHandler(httpd_req_t *req);
         
         private:
             static esp_err_t _sendResponse(httpd_req_t *req, cJSON *responseObj, const char* status="200 OK");

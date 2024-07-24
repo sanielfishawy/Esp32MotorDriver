@@ -12,22 +12,22 @@
 
 class Dynamic{
 
-    typedef struct{
-        float minFreqHz;
-        float maxFreqHz;
-        float slipFract;
-        float amplitudeFract;
-        uint64_t startTime;
-        uint64_t endTime;
-    } Measurement;
-
     public:
+        typedef struct{
+            float minFreqHz;
+            float maxFreqHz;
+            float slipFract;
+            float amplitudeFract;
+            uint64_t startTime;
+            uint64_t endTime;
+        } Measurement;
+        
         static void setup();
         static void setupMeasurement(Measurement measurement);
         static esp_err_t setupMeasurementFromJson(cJSON *measurementJson);
         static Measurement getMeasurement();
         static cJSON *getMeasurementJson();
-        
+    
     private:
         static Measurement _measurement;
         static bool  _isSetup;
@@ -40,6 +40,7 @@ class Dynamic{
         static bool  _isAtMax();
         static float _freqWithSlip();
         static float _rotorFreq();
+        static float _rotorSlipFract();
         static void  _accelerate();
         static void  _coast();
         static void  _handleGoingToMin();

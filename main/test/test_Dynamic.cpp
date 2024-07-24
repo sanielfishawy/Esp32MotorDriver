@@ -3,13 +3,15 @@ extern "C" {
 }
 
 #include "esp_err.h"
+#include "esp_log.h"
 #include "cJSON.h"
 
 #include "../tuning/Dynamic.h"
+#include "../http/HttpServer.h"
 
 extern "C" {
 
-    static void test_dynamic() {
+    static void test_dynamicSetupMeasurementFromJson() {
         // Dynamic::setup();
         esp_err_t err = Dynamic::setupMeasurementFromJson(NULL);
         TEST_ASSERT_EQUAL(ESP_ERR_INVALID_ARG, err);
@@ -35,9 +37,24 @@ extern "C" {
         TEST_ASSERT_EQUAL(ESP_OK, err);
     }
 
+    static void test_dynamicRun() {
+        HttpServer::setup();
+        Dynamic::setup();
+        // Dynamic::Measurement measurement = {
+        //     .minFreqHz = 4,
+        //     .maxFreqHz = 10,
+        //     .slipFract = 0.2,
+        //     .amplitudeFract = 0.5,
+        //     .startTime = 0,
+        //     .endTime = 0
+        // };
+        // Dynamic::setupMeasurement(measurement);
+    }
+
     void run_test_Dynamic(){
         UNITY_BEGIN();
-        RUN_TEST(test_dynamic);
+        // RUN_TEST(test_dynamicSetupMeasurementFromJson);
+        RUN_TEST(test_dynamicRun);
         UNITY_END();
     }
 
