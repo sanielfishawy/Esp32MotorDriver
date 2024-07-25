@@ -2,9 +2,10 @@
 
 #include "esp_log.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 
-#include "Quadrature.h"
 #include "appConfig.h"
+#include "Quadrature.h"
 
 #ifdef __cplusplus
 
@@ -18,6 +19,7 @@ class RotorSpeed{
     private:
         static bool _isSetup;
         static Quadrature* _quadrature;
+        static bool isSpeedZero(Quadrature::Event currentEvent);
 
 };
 

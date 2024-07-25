@@ -8,6 +8,7 @@
 #include "esp_log.h"
 #include "cJSON.h"
 
+#include "appConfig.h"
 #include "Vfd.h"
 
 class Dynamic{

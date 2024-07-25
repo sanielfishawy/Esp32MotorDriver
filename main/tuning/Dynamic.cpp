@@ -88,7 +88,7 @@ void Dynamic::setup(){
 void Dynamic::_setupTimer(){
     if (_timer != NULL) return;
     ESP_ERROR_CHECK(esp_timer_create(&_timerArgs, &_timer));
-    ESP_ERROR_CHECK(esp_timer_start_periodic(_timer, 1000 * 100));
+    ESP_ERROR_CHECK(esp_timer_start_periodic(_timer, 1000 * DYN_VFD_UPDATE_PERIOD_MS));
 }
 
 bool Dynamic::_isReady(){
@@ -122,8 +122,8 @@ bool Dynamic::_isAtMax(){
 }
 
 float Dynamic::_freqWithSlip(){
-    float fws = _rotorFreq() * ( 1 + _measurement.slipFract);
-    if (fws < 2) fws = 2;
+    float fws = _rotorFreq() / ( 1 - _measurement.slipFract);
+    if (fws < 1) fws = 1;
     return fws;
 }
 
@@ -138,7 +138,9 @@ float Dynamic::_rotorSlipFract(){
 void Dynamic::_accelerate(){
     float fws = _freqWithSlip();
     VFD::setFreqHz(fws);
-    VFD::setAmplitudeFract(_measurement.amplitudeFract);
+    float amp = _measurement.amplitudeFract;
+    if (fws < 1) amp = 0.4;
+    VFD::setAmplitudeFract(amp);
     // ESP_LOGI(DYN_TAG, "accelerate: freqHz: %f, amplitudeFract: %f", fws, _measurement.amplitudeFract);
 }
 

@@ -22,4 +22,5 @@ extern "C" {
     void run_test_Dynamic();
     void run_test_Malloc();
     void run_test_Torque();
+    void run_test_RotorSpeed();
 }

@@ -82,6 +82,7 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_Dynamic.cpp"
                         "test/test_Malloc.cpp"
                         "test/test_Torque.cpp"
+                        "test/test_RotorSpeed.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

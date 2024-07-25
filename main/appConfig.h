@@ -138,10 +138,13 @@
 #define RS_TAG                  "RotorSpeed"
 #define RS_QUAD_A_GPIO_NUM      GPIO_NUM_11
 #define RS_QUAD_B_GPIO_NUM      GPIO_NUM_12
-#define RS_QAUD_TICKS_PER_REV   48
+#define RS_QAUD_TICKS_PER_REV   (float) 48
+#define RS_MIN_SPEED_HZ         (float) 0.1
+#define RS_MAX_TIME_BETWEEN_TICKS_USEC ( (float) ( 1000000.0 / ( RS_MIN_SPEED_HZ * RS_QAUD_TICKS_PER_REV ) ) )
 
 // Dynamic
-#define DYN_TAG                 "Dynamic"
+#define DYN_TAG                     "Dynamic"
+#define DYN_VFD_UPDATE_PERIOD_MS    20
 
 // Torque
 #define TORQUE_TAG              "Torque"

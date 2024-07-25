@@ -25,5 +25,6 @@ extern "C"{
         run_test_Dynamic();
         // run_test_Malloc();
         // run_test_Torque();
+        // run_test_RotorSpeed();
     }
 }
