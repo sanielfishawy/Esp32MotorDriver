@@ -145,6 +145,12 @@
 // Dynamic
 #define DYN_TAG                     "Dynamic"
 #define DYN_VFD_UPDATE_PERIOD_MS    20
+#define DYN_STOPPED_ROTOR_FREQ_HZ   3.0
+#define DYN_START_FREQ_HZ           3.0
+#define DYN_START_AMP_FRACT         0.6
+#define DYN_ACCEL_TO_MIN_SLIP_FRACT 0.2
+#define DYN_ACCEL_TO_MIN_AMP_FRACT  0.6
+#define DYN_NOT_ABLE_TO_ACCEL_THRESHOLD_SEC 15.0
 
 // Torque
 #define TORQUE_TAG              "Torque"

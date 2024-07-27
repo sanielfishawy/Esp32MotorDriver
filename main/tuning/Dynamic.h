@@ -19,8 +19,8 @@ class Dynamic{
             float maxFreqHz;
             float slipFract;
             float amplitudeFract;
-            uint64_t startTime;
-            uint64_t endTime;
+            int64_t startTime;
+            int64_t endTime;
         } Measurement;
         
         static void setup();
@@ -39,10 +39,16 @@ class Dynamic{
         static bool  _isAboveMin();
         static bool  _isBelowMin();
         static bool  _isAtMax();
+        static bool  _isStopped();
+        static bool  _isDone();
+        static bool  _isNotAbleToAccelerate();
         static float _freqWithSlip();
+        static float _freqWithSlip(float slipFract);    
         static float _rotorFreq();
         static float _rotorSlipFract();
         static void  _accelerate();
+        static bool  _accelerateFromStopped();
+        static void  _accelerateToMin();
         static void  _coast();
         static void  _handleGoingToMin();
         static void  _handleAccelerating();

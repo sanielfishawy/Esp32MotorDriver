@@ -6,8 +6,8 @@ bool VFD::_isStarted = false;
 void VFD::setup(){
     if(_isSetup) return;
     PhaseGen::setup();
-    PhaseGen::setFreqHz(10);
-    PwmPairs::setAmplitudeFract(0.2);
+    PhaseGen::setFreqHz(3);
+    PwmPairs::setAmplitudeFract(0);
 
     PwmPairs::setup();
     RotorSpeed::setup();
