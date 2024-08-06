@@ -56,7 +56,7 @@ esp_err_t Dynamic::setupMeasurementFromJson(cJSON *measurement){
     _measurement.amplitudeFract = amplitudeFract->valuedouble;
     _measurement.startTime = 0;
     _measurement.endTime = 0;
-    ESP_LOGI(DYN_TAG, "setupMeasurementFromJson: minFreqHz: %f, maxFreqHz: %f, slipFract: %f, amplitudeFract: %f", _measurement.minFreqHz, _measurement.maxFreqHz, _measurement.slipFract, _measurement.amplitudeFract);
+    //ESP_LOGI(DYN_TAG, "setupMeasurementFromJson: minFreqHz: %f, maxFreqHz: %f, slipFract: %f, amplitudeFract: %f", _measurement.minFreqHz, _measurement.maxFreqHz, _measurement.slipFract, _measurement.amplitudeFract);
     return ESP_OK;
 }
 
@@ -102,8 +102,10 @@ bool Dynamic::_isNearMin(){
 }
 
 bool Dynamic::_isAtMin(){
-    bool atMin = VFD::getFreqHz() == _measurement.minFreqHz && VFD::getSlipFract() < 0.02;
-    // ESP_LOGI(DYN_TAG, "isAtMin: %d,  f: %f, s: %f, ", atMin, VFD::getFreqHz(), VFD::getSlipFract());
+    bool atMin = 
+        abs(VFD::getFreqHz() - _measurement.minFreqHz) < 0.01 && 
+        VFD::getSlipFract() < 0.05;
+    //ESP_LOGI(DYN_TAG, "isAtMin: %d,  f: %f, s: %f, ", atMin, VFD::getFreqHz(), VFD::getSlipFract());
     return atMin;
 }
 
@@ -151,7 +153,7 @@ void Dynamic::_accelerate(){
     float fws = _freqWithSlip();
     VFD::setFreqHz(fws);
     VFD::setAmplitudeFract(_measurement.amplitudeFract);
-    // ESP_LOGI(DYN_TAG, "accelerate: freq: %f amp: %f", fws, _measurement.amplitudeFract);
+    //ESP_LOGI(DYN_TAG, "accelerate: freq: %f amp: %f", fws, _measurement.amplitudeFract);
 }
 
 bool Dynamic::_accelerateFromStopped(){
@@ -168,7 +170,7 @@ void Dynamic::_accelerateToMin(){
     if (_accelerateFromStopped()) return;
     VFD::setFreqHz(_freqWithSlip(DYN_ACCEL_TO_MIN_SLIP_FRACT));
     VFD::setAmplitudeFract(DYN_ACCEL_TO_MIN_AMP_FRACT);
-    // ESP_LOGI(DYN_TAG, "accelerateToMin:");
+    //ESP_LOGI(DYN_TAG, "accelerateToMin:");
 }   
 
 void Dynamic::_coast(){
@@ -195,40 +197,40 @@ void IRAM_ATTR Dynamic::_handleInterrupt(void *arg){
 void Dynamic::_handleGoingToMin(){
     // ESP_LOGI(DYN_TAG, "_handleGoingToMin");
     if (_isAtMin()){
-        // ESP_LOGI(DYN_TAG, "at min");
+        //ESP_LOGI(DYN_TAG, "at min");
         _measurement.startTime = esp_timer_get_time();
         _accelerate();
         return;
     }
     if (_isNearMin()){
-        // ESP_LOGI(DYN_TAG, "near min");
+        //ESP_LOGI(DYN_TAG, "near min");
         VFD::setFreqHz(_measurement.minFreqHz);
         VFD::setAmplitudeFract(DYN_ACCEL_TO_MIN_AMP_FRACT);
         return;
     }
     if (_isAboveMin()){
-        // ESP_LOGI(DYN_TAG, "above min");
+        //ESP_LOGI(DYN_TAG, "above min");
         _coast();
         return;
     }
     if (_isBelowMin()){
-        // ESP_LOGI(DYN_TAG, "below min");
+        //ESP_LOGI(DYN_TAG, "below min");
         _accelerateToMin();
         return;
     }
 }
 
 void Dynamic::_handleAccelerating(){
-    // ESP_LOGI(DYN_TAG, "_handleAccelerating");
+    //ESP_LOGI(DYN_TAG, "_handleAccelerating");
     if(_isAtMax()){
-        // ESP_LOGI(DYN_TAG, "at max");
+        //ESP_LOGI(DYN_TAG, "at max");
         if (_measurement.endTime == 0) _measurement.endTime = esp_timer_get_time();
         _coast();
         return;
     }
     
     if(_isNotAbleToAccelerate()){
-        // ESP_LOGI(DYN_TAG, "not able to accelerate");
+        //ESP_LOGI(DYN_TAG, "not able to accelerate");
         _measurement.endTime = -1;
         _coast();
         return;
