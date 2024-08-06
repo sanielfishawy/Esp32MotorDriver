@@ -56,7 +56,7 @@ esp_err_t Dynamic::setupMeasurementFromJson(cJSON *measurement){
     _measurement.amplitudeFract = amplitudeFract->valuedouble;
     _measurement.startTime = 0;
     _measurement.endTime = 0;
-    //ESP_LOGI(DYN_TAG, "setupMeasurementFromJson: minFreqHz: %f, maxFreqHz: %f, slipFract: %f, amplitudeFract: %f", _measurement.minFreqHz, _measurement.maxFreqHz, _measurement.slipFract, _measurement.amplitudeFract);
+    ESP_LOGI(DYN_TAG, "setupMeasurementFromJson: minFreqHz: %f, maxFreqHz: %f, slipFract: %f, amplitudeFract: %f", _measurement.minFreqHz, _measurement.maxFreqHz, _measurement.slipFract, _measurement.amplitudeFract);
     return ESP_OK;
 }
 
