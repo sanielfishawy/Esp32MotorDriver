@@ -71,7 +71,8 @@
     "typeinfo": "cpp",
     "pwmpin.h": "c",
     "phasegen.h": "c",
-    "math.h": "c"
+    "math.h": "c",
+    "setup.h": "c"
   },
   "idf.port": "/dev/cu.usbmodem14101",
   "idf.flashType": "JTAG",

@@ -10,7 +10,7 @@
 #include "Vfd.h"
 #include "SvPwm.h"
 #include "Dynamic.h"
-#include "Torque.h"
+#include "StaticTorqueMeasurement.h"
 
 #ifdef __cplusplus
 

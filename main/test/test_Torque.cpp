@@ -2,12 +2,12 @@ extern "C" {
     #include "unity.h"
 }
 
-#include "Torque.h"
+#include "StaticTorqueMeasurement.h"
 
 extern "C" {
 
     static void test_torque() {
-        Torque::setup();
+        StaticTorqueMeasurement::setup();
     }
 
     void run_test_Torque(){

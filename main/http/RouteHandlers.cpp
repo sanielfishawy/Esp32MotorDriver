@@ -109,7 +109,7 @@ esp_err_t RouteHandlers::setDynamicMeasurementHandler(httpd_req_t *req){
 }
 
 esp_err_t RouteHandlers::getTorqueHandler(httpd_req_t *req){
-    int torque = Torque::getTorque();
+    int torque = StaticTorqueMeasurement::getTorque();
     cJSON *resultObject = _getFloatResultObject("torque", torque);
     cJSON *responseObj = _getOkResponseObject(resultObject);
     return _sendResponse(req, responseObj);

@@ -14,6 +14,7 @@ set (
                 "models/SvPwm.cpp"
                 "models/Quadrature.cpp"
                 "models/RotorSpeed.cpp"
+                "models/TunedParameters.cpp"
                 "http/WifiConnect.cpp"
                 "http/NvsFlash.cpp"
                 "http/HttpServer.cpp"
@@ -23,7 +24,7 @@ set (
                 "telemetry/TelemetryToFile.cpp"
                 "telemetry/Spiffs.cpp"
                 "tuning/Dynamic.cpp"
-                "tuning/Torque.cpp"
+                "tuning/StaticTorqueMeasurement.cpp"
 )
 
 set (
@@ -83,6 +84,7 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_Malloc.cpp"
                         "test/test_Torque.cpp"
                         "test/test_RotorSpeed.cpp"
+                        "test/test_TunedParameters.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

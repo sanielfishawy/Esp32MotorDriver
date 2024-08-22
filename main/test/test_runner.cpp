@@ -22,9 +22,10 @@ extern "C"{
         // run_test_PwmPairs();
         // run_test_SvPwm();
         // run_test_HttpServer();
-        run_test_Dynamic();
+        // run_test_Dynamic();
         // run_test_Malloc();
         // run_test_Torque();
         // run_test_RotorSpeed();
+        run_test_TunedParameters();
     }
 }

@@ -23,4 +23,5 @@ extern "C" {
     void run_test_Malloc();
     void run_test_Torque();
     void run_test_RotorSpeed();
+    void run_test_TunedParameters();
 }

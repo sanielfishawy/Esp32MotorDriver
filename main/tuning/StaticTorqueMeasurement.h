@@ -8,7 +8,7 @@
 
 #ifdef __cplusplus
 
-class Torque{
+class StaticTorqueMeasurement{
     public:
         static void setup();
         static int  getTorque();
