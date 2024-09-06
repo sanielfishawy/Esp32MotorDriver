@@ -74,9 +74,39 @@ std::vector<httpd_uri_t> Routes::uris = {
         .user_ctx = nullptr,
     },
     {
-        .uri      = "/getTorque",
+        .uri      = "/getMeasuredStaticTorque",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getStaticTorqueMeasurementHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/torque",
+        .method   = HTTP_PUT,
+        .handler  = RouteHandlers::setTorqueHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/torque",
         .method   = HTTP_GET,
         .handler  = RouteHandlers::getTorqueHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/useGoPedal",
+        .method   = HTTP_PUT,
+        .handler  = RouteHandlers::setUseGoPedalHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/useGoPedal",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getUseGoPedalHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/goPedalStatus",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getGoPedalStatusHandler,
         .user_ctx = nullptr,
     },
 };

@@ -8,12 +8,14 @@
 #ifdef __cplusplus
 
 class VFD{
+
     public:
         static void setup();
         static void start();
         static void tearDown();
         static void stop();
         static void setFreqHz(float freqHz);
+        static void setMaxFreqHz(float freqHz);
         static void setAmplitudeFract(float pPAmplitudeFract);
         static float getFreqHz();
         static float getAmplitudeFract();
@@ -29,6 +31,7 @@ class VFD{
     private:
         static bool _isSetup;
         static bool _isStarted;
+        static float _maxFreqHz;
 
 };
 

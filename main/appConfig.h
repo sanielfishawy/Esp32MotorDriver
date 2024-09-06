@@ -101,15 +101,17 @@
 // Wifi
 // #define WIFI_SSID   "pollionidesign"
 // #define WIFI_PWD    "par00502"
-#define WIFI_SSID   "scoutandjagger"
-#define WIFI_PWD    "ridgebacks"
+// #define WIFI_SSID   "scoutandjagger"
+// #define WIFI_PWD    "ridgebacks"
+#define WIFI_SSID   "Elfishawy"
+#define WIFI_PWD    "7035251244"
 
 // HttpServer
 #define HS_MDNS_HOSTNAME        "motor"
 #define HS_MDNS_INSTANCE_NAME   "Esp32 Motor Controller Http Server"
 #define HS_MAX_URI_LENGTH       128
 #define HS_MAX_PARAM_LENGTH     64
-#define HS_MAX_URI_HANDLERS     16
+#define HS_MAX_URI_HANDLERS     32
 
 // TelemetryToFile
 #define TEL_TAG                 "TelemetryToFile"
@@ -152,8 +154,27 @@
 #define DYN_ACCEL_TO_MIN_AMP_FRACT  0.6
 #define DYN_NOT_ABLE_TO_ACCEL_THRESHOLD_SEC 15.0
 
-// Torque
-#define TORQUE_TAG              "Torque"
-#define TORQUE_ADC_UNIT         ADC_UNIT_1
-#define TORQUE_ADC_CHANNEL      ADC_CHANNEL_0
-#define TORQUE_ADC_GPIO_PIN     GPIO_NUM_1
+// Static Torque Measurement
+#define STM_TAG              "StaticTorqueMeasurement"
+#define STM_ADC_UNIT         ADC_UNIT_1
+#define STM_ADC_CHANNEL      ADC_CHANNEL_0
+#define STM_ADC_GPIO_PIN     GPIO_NUM_1
+
+// Torque Control
+#define TC_TAG                      "TorqueControl"
+#define TC_VFD_UPDATE_PERIOD_MS     20
+
+// VFD
+#define VFD_TAG                 "VFD"
+#define VFD_DEFAULT_MAX_FREQ_HZ         ( (float) 60.0 )
+
+// Go Pedal
+#define GP_TAG                  "GoPedal"
+#define GP_ADC_UNIT             ADC_UNIT_1
+#define GP_ADC_GPIO_NUM_A       GPIO_NUM_2
+#define GP_ADC_GPIO_NUM_B       GPIO_NUM_3
+#define GP_ADC_CHANNEL_A        ADC_CHANNEL_1
+#define GP_ADC_CHANNEL_B        ADC_CHANNEL_2
+#define GP_CHAN_A_NORM_FACTOR   ( (float) 1.0 )
+#define GP_CHAN_B_NORM_FACTOR   ( (float) 1.0 )
+#define GP_CHAN_AGREE_THRESHOLD ( (float) 0.01 )

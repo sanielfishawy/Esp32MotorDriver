@@ -15,6 +15,8 @@ set (
                 "models/Quadrature.cpp"
                 "models/RotorSpeed.cpp"
                 "models/TunedParameters.cpp"
+                "models/TorqueControl.cpp"
+                "models/GoPedal.cpp"
                 "http/WifiConnect.cpp"
                 "http/NvsFlash.cpp"
                 "http/HttpServer.cpp"
@@ -85,6 +87,7 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_Torque.cpp"
                         "test/test_RotorSpeed.cpp"
                         "test/test_TunedParameters.cpp"
+                        "test/test_TorqueControl.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

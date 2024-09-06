@@ -14,16 +14,16 @@ void StaticTorqueMeasurement::setup(){
 int StaticTorqueMeasurement::getTorque(){
     if(!_isSetup) return(-1);
     int raw;
-    ESP_ERROR_CHECK(adc_oneshot_read(_adcHandle, TORQUE_ADC_CHANNEL, &raw));
+    ESP_ERROR_CHECK(adc_oneshot_read(_adcHandle, STM_ADC_CHANNEL, &raw));
     return(raw);
 }
 
 
 void StaticTorqueMeasurement::_setupPin(){
-    ESP_ERROR_CHECK(gpio_reset_pin(TORQUE_ADC_GPIO_PIN));
-    ESP_ERROR_CHECK(gpio_intr_disable(TORQUE_ADC_GPIO_PIN));
-    ESP_ERROR_CHECK(gpio_set_intr_type(TORQUE_ADC_GPIO_PIN, GPIO_INTR_DISABLE));
-    ESP_ERROR_CHECK(gpio_set_pull_mode(TORQUE_ADC_GPIO_PIN, GPIO_FLOATING));
+    ESP_ERROR_CHECK(gpio_reset_pin(STM_ADC_GPIO_PIN));
+    ESP_ERROR_CHECK(gpio_intr_disable(STM_ADC_GPIO_PIN));
+    ESP_ERROR_CHECK(gpio_set_intr_type(STM_ADC_GPIO_PIN, GPIO_INTR_DISABLE));
+    ESP_ERROR_CHECK(gpio_set_pull_mode(STM_ADC_GPIO_PIN, GPIO_FLOATING));
 }
 
 void StaticTorqueMeasurement::_setupAdc(){
@@ -33,7 +33,7 @@ void StaticTorqueMeasurement::_setupAdc(){
 
 void StaticTorqueMeasurement::_setupAdcUnit(){
     adc_oneshot_unit_init_cfg_t _adcUnitConfig = {
-        .unit_id = TORQUE_ADC_UNIT,
+        .unit_id = STM_ADC_UNIT,
         .clk_src = ADC_RTC_CLK_SRC_DEFAULT,
         .ulp_mode = ADC_ULP_MODE_DISABLE,
     };
@@ -45,7 +45,7 @@ void StaticTorqueMeasurement::_setupAdcChannel(){
         .atten = ADC_ATTEN_DB_11,
         .bitwidth = ADC_BIT_WIDTH,
     };
-    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, TORQUE_ADC_CHANNEL, &_adcChanCfg));
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, STM_ADC_CHANNEL, &_adcChanCfg));
 }
 
 

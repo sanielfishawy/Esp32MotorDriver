@@ -2,6 +2,7 @@
 
 bool VFD::_isSetup = false;
 bool VFD::_isStarted = false;
+float VFD::_maxFreqHz = VFD_DEFAULT_MAX_FREQ_HZ;
 
 void VFD::setup(){
     if(_isSetup) return;
@@ -25,7 +26,12 @@ void VFD::start(){
 }
 
 void VFD::setFreqHz(float freqHz){
-    PhaseGen::setFreqHz(freqHz);
+    float limitedFreqHz = freqHz > _maxFreqHz ? _maxFreqHz : freqHz;
+    PhaseGen::setFreqHz(limitedFreqHz);
+}
+
+void VFD::setMaxFreqHz(float freqHz){
+    _maxFreqHz = freqHz;
 }
 
 void VFD::setAmplitudeFract(float amplitudeFract){

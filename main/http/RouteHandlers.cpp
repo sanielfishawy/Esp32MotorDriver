@@ -9,6 +9,9 @@ esp_err_t RouteHandlers::rootHandler(httpd_req_t *req){
     cJSON_AddNumberToObject(responseObj, "electricalEquivalentSpeedHz", VFD::getRotorElectricalEquivalentSpeedHz());
     cJSON_AddNumberToObject(responseObj, "slipHz", VFD::getSlipHz());
     cJSON_AddNumberToObject(responseObj, "slipFract", VFD::getSlipFract());
+    cJSON_AddNumberToObject(responseObj, "torqueFract", TorqueControl::getTorque());
+    cJSON_AddBoolToObject(responseObj, "useGoPedal", TorqueControl::getUseGoPedal());
+    cJSON_AddItemToObject(responseObj, "goPedalStatus", GoPedal::getStatus());
     return _sendResponse(req, responseObj);
 }
 
@@ -23,8 +26,7 @@ esp_err_t RouteHandlers::setAmplitudeFractHandler(httpd_req_t *req){
     float value;
 
     if (!_getFloatValueParam(req, &value)) {
-        cJSON *responseObj = _getErrorResponseObject("Invalid or missing value parameter");
-        return _sendResponse(req, responseObj, "400 Bad Request");
+        return _sendResponse(req, _getInvalidParamResponseObject(), "400 Bad Request");
     }
 
     VFD::setAmplitudeFract(value);
@@ -42,13 +44,51 @@ esp_err_t RouteHandlers::getFreqHzHandler(httpd_req_t *req){
 esp_err_t RouteHandlers::setFreqHzHandler(httpd_req_t *req){
     float value;
     if (!_getFloatValueParam(req, &value)) {
-        cJSON *responseObj = _getErrorResponseObject("Invalid or missing value parameter");
-        return _sendResponse(req, responseObj, "400 Bad Request");
+        return _sendResponse(req, _getInvalidParamResponseObject(), "400 Bad Request");
     }
     VFD::setFreqHz(value);
     cJSON *resultObject = _getFloatResultObject("freqHz", VFD::getFreqHz());
     cJSON *responseObj = _getOkResponseObject(resultObject);
     return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::getTorqueHandler(httpd_req_t *req){
+    cJSON *resultObject = _getFloatResultObject("torqueFract", TorqueControl::getTorque());
+    cJSON *responseObj = _getOkResponseObject(resultObject);
+    return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::setTorqueHandler(httpd_req_t *req){
+    float value;
+    if (!_getFloatValueParam(req, &value)) {
+        return _sendResponse(req, _getInvalidParamResponseObject(), "400 Bad Request");
+    }
+    TorqueControl::setTorque(value);
+    cJSON *resultObject = _getFloatResultObject("torqueFract", TorqueControl::getTorque());
+    cJSON *responseObj = _getOkResponseObject(resultObject);
+    return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::getUseGoPedalHandler(httpd_req_t *req){
+    cJSON *resultObject = _getBoolResultObject("useGoPedal", TorqueControl::getUseGoPedal());
+    cJSON *responseObj = _getOkResponseObject(resultObject);
+    return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::setUseGoPedalHandler(httpd_req_t *req){
+    bool value;
+    if (!_getBoolValueParam(req, &value)) {
+        return _sendResponse(req, _getInvalidParamResponseObject(), "400 Bad Request");
+    }
+    TorqueControl::setUseGoPedal(value);
+    cJSON *resultObject = _getBoolResultObject("useGoPedal", TorqueControl::getUseGoPedal());
+    cJSON *responseObj = _getOkResponseObject(resultObject);
+    return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::getGoPedalStatusHandler(httpd_req_t *req){
+    cJSON *resultObject = GoPedal::getStatus();
+    return _sendResponse(req, resultObject);
 }
 
 esp_err_t RouteHandlers::setFloatHandler(httpd_req_t *req){
@@ -108,7 +148,7 @@ esp_err_t RouteHandlers::setDynamicMeasurementHandler(httpd_req_t *req){
     return err;
 }
 
-esp_err_t RouteHandlers::getTorqueHandler(httpd_req_t *req){
+esp_err_t RouteHandlers::getStaticTorqueMeasurementHandler(httpd_req_t *req){
     int torque = StaticTorqueMeasurement::getTorque();
     cJSON *resultObject = _getFloatResultObject("torque", torque);
     cJSON *responseObj = _getOkResponseObject(resultObject);
@@ -119,6 +159,10 @@ esp_err_t RouteHandlers::getDynamicMeasurementHandler(httpd_req_t *req){
     cJSON *measurement = Dynamic::getMeasurementJson();
     cJSON *responseObj = _getOkResponseObject(measurement);
     return _sendResponse(req, responseObj);
+}
+
+cJSON *RouteHandlers::_getInvalidParamResponseObject() {
+    return _getErrorResponseObject("Invalid or missing parameter");
 }
 
 cJSON *RouteHandlers::_getErrorResponseObject(const char *message) {
@@ -187,6 +231,26 @@ bool RouteHandlers::_getFloatValueParam(httpd_req_t *req, float *value) {
         if (success) return true;
         else return false;
     }
+    return false;
+}
+
+bool RouteHandlers::_getBoolValueParam(httpd_req_t *req, bool *value) {
+    char uri_params[HS_MAX_URI_LENGTH] = {0};
+
+    httpd_req_get_url_query_str(req, uri_params, HS_MAX_URI_LENGTH);
+    char param_value[HS_MAX_PARAM_LENGTH];
+
+    if (httpd_query_key_value(uri_params, "value", param_value, sizeof(param_value)) == ESP_OK) {
+        // Convert the parameter string to a boolean
+        if (strcasecmp(param_value, "true") == 0 || strcmp(param_value, "1") == 0) {
+            *value = true;
+            return true;
+        } else if (strcasecmp(param_value, "false") == 0 || strcmp(param_value, "0") == 0) {
+            *value = false;
+            return true;
+        }
+    }
+
     return false;
 }
 
