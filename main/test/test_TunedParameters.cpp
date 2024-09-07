@@ -37,6 +37,42 @@ extern "C" {
         amplitudeFract = TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(torque, rotorSpeed);
         // ESP_LOGI(TTP_TAG, "torque: %f, rotorSpeed: %f, amplitudeFract: %f", torque, rotorSpeed, amplitudeFract);
         TEST_ASSERT_DOUBLE_WITHIN(0.01, 1, amplitudeFract);
+
+        torque = 1.0;
+        rotorSpeed = 0;
+        amplitudeFract = TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(torque, rotorSpeed);
+        TEST_ASSERT_DOUBLE_WITHIN(0.01, 1, amplitudeFract);
+        // ESP_LOGI(TTP_TAG, "torque: %f, rotorSpeed: %f, amplitudeFract: %f", torque, rotorSpeed, amplitudeFract);
+        
+        torque = 1.0;
+        rotorSpeed = 1;
+        amplitudeFract = TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(torque, rotorSpeed);
+        TEST_ASSERT_DOUBLE_WITHIN(0.01, 1, amplitudeFract);
+        // ESP_LOGI(TTP_TAG, "torque: %f, rotorSpeed: %f, amplitudeFract: %f", torque, rotorSpeed, amplitudeFract);
+        
+        torque = 1.0;
+        rotorSpeed = 2;
+        amplitudeFract = TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(torque, rotorSpeed);
+        TEST_ASSERT_DOUBLE_WITHIN(0.01, 1, amplitudeFract);
+        // ESP_LOGI(TTP_TAG, "torque: %f, rotorSpeed: %f, amplitudeFract: %f", torque, rotorSpeed, amplitudeFract);
+        
+        torque = 1.0;
+        rotorSpeed = 3;
+        amplitudeFract = TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(torque, rotorSpeed);
+        TEST_ASSERT_DOUBLE_WITHIN(0.01, 1, amplitudeFract);
+        // ESP_LOGI(TTP_TAG, "torque: %f, rotorSpeed: %f, amplitudeFract: %f", torque, rotorSpeed, amplitudeFract);
+        
+        torque = 1.0;
+        rotorSpeed = 4;
+        amplitudeFract = TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(torque, rotorSpeed);
+        TEST_ASSERT_DOUBLE_WITHIN(0.01, 1, amplitudeFract);
+        // ESP_LOGI(TTP_TAG, "torque: %f, rotorSpeed: %f, amplitudeFract: %f", torque, rotorSpeed, amplitudeFract);
+        
+        torque = 1.0;
+        rotorSpeed = 4.4;
+        amplitudeFract = TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(torque, rotorSpeed);
+        TEST_ASSERT_DOUBLE_WITHIN(0.01, 1, amplitudeFract);
+        // ESP_LOGI(TTP_TAG, "torque: %f, rotorSpeed: %f, amplitudeFract: %f", torque, rotorSpeed, amplitudeFract);
     }
 
     void run_test_TunedParameters(){

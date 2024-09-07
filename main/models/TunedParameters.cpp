@@ -2,7 +2,9 @@
 
 // See pythonTuning project for how this model was fit.
 float TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(float torque, float rotorFreq){
-    float amp = _ampCoeff.alpha + 
+    float amp;
+    if (rotorFreq < _ampCoeff.lowCutoffRotorFreq) amp = torque;
+    else amp = _ampCoeff.alpha + 
                 _ampCoeff.beta * torque + 
                 _ampCoeff.gamma * rotorFreq +
                 _ampCoeff.delta * torque * rotorFreq;

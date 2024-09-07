@@ -2,7 +2,7 @@
 
 bool  TorqueControl::_isSetup = false;
 float TorqueControl::_torque = 0;
-bool  TorqueControl::_useGoPedal = false;
+bool  TorqueControl::_useGoPedal = true;
 
 esp_timer_create_args_t TorqueControl::_timerArgs = {
     .callback = &_handleInterrupt,

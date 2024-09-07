@@ -101,10 +101,10 @@
 // Wifi
 // #define WIFI_SSID   "pollionidesign"
 // #define WIFI_PWD    "par00502"
-// #define WIFI_SSID   "scoutandjagger"
-// #define WIFI_PWD    "ridgebacks"
-#define WIFI_SSID   "Elfishawy"
-#define WIFI_PWD    "7035251244"
+#define WIFI_SSID   "scoutandjagger"
+#define WIFI_PWD    "ridgebacks"
+// #define WIFI_SSID   "Elfishawy"
+// #define WIFI_PWD    "7035251244"
 
 // HttpServer
 #define HS_MDNS_HOSTNAME        "motor"
@@ -176,8 +176,8 @@
 #define GP_ADC_CHANNEL_A        ADC_CHANNEL_1
 #define GP_ADC_CHANNEL_B        ADC_CHANNEL_2
 #define GP_CHAN_AGREE_THRESHOLD ( (float) 0.05 )
-#define GP_CHAN_A_MAX_RAW       ( (float) 3690 )
-#define GP_CHAN_B_MAX_RAW       ( (float) 2485 )
+#define GP_CHAN_A_MAX_RAW       ( (float) 3670 )
+#define GP_CHAN_B_MAX_RAW       ( (float) 2465 )
 #define GP_CHAN_A_MIN_RAW       ( (float) 616 )
 #define GP_CHAN_B_MIN_RAW       ( (float) 419 )
 #define GP_CHAN_A_RANGE         ( GP_CHAN_A_MAX_RAW - GP_CHAN_A_MIN_RAW )
