@@ -2,16 +2,30 @@
 
 // See pythonTuning project for how this model was fit.
 float TunedParameters::getAmplitudeFractWithTorqueAndRotorFreq(float torque, float rotorFreq){
-    float amp;
-    // Setting amplitude to 1 at low freq causes to much current to flow. 
-    if (rotorFreq < _ampCoeff.lowCutoffRotorFreq) amp = torque * 0.8;
-    // else amp = _ampCoeff.alpha + 
-    //             _ampCoeff.beta * torque + 
-    //             _ampCoeff.gamma * rotorFreq +
-    //             _ampCoeff.delta * torque * rotorFreq;
-    else amp = 0.171 * rotorFreq * torque;
+    float amp = _getAmpParabolicModel(torque, rotorFreq);
     if (amp > 1) return 1;
     return amp;
+}
+
+float TunedParameters::_getAmpBilinearModel(float torque, float rotorFreq){
+    if (rotorFreq < _bilinearModelAmpCoeff.lowCutoffRotorFreq) return 0.75 * torque;
+    return  _bilinearModelAmpCoeff.alpha + 
+            _bilinearModelAmpCoeff.beta * torque + 
+            _bilinearModelAmpCoeff.gamma * rotorFreq +
+            _bilinearModelAmpCoeff.delta * torque * rotorFreq;
+}
+
+float TunedParameters::_getAmpLinearModel(float torque, float rotorFreq){
+    if (rotorFreq < 3) return 0.75 * torque;
+    return 0.171 * rotorFreq * torque;
+}
+
+float TunedParameters::_getAmpParabolicModel(float torque, float rotorFreq){
+    if (rotorFreq < _parabolicModelAmpCoeff.lowCutoffRotorFreq) return 0.75 * torque;
+    float k =   _parabolicModelAmpCoeff.a * rotorFreq * rotorFreq + 
+                _parabolicModelAmpCoeff.b * rotorFreq + 
+                _parabolicModelAmpCoeff.c;
+    return k * torque;
 }
 
 float TunedParameters::_getSlip(float rotorFreq){

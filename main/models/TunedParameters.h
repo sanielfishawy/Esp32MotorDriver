@@ -12,6 +12,13 @@ class TunedParameters{
         float delta;
     } BilinearModelCoefficients;
 
+    typedef struct{
+        float lowCutoffRotorFreq;
+        float a;
+        float b;
+        float c;
+    } ParabolicModelCoefficients;
+
     typedef struct {
         float startFreqHz;              // The freqHz to use when starting tbe motor below the lowCutoffRotorSpeed
         float startCutoffRotorFreq;     // The speed below which motor is considered stopped and startFreq is used
@@ -24,10 +31,14 @@ class TunedParameters{
     public:
         static float getAmplitudeFractWithTorqueAndRotorFreq(float torque, float rotorFreq);
         static float getFreqHzForMaxTorqueWithRotorFreq(float rotorFreq);
-        static float _getSlip(float rotorFreq);
     
     private:
-        static inline const BilinearModelCoefficients _blueMotorCoefficients = {
+        static float _getSlip(float rotorFreq);
+        static float _getAmpBilinearModel(float torque, float rotorFreq);
+        static float _getAmpLinearModel(float torque, float rotorFreq);
+        static float _getAmpParabolicModel(float torque, float rotorFreq);
+
+        static inline const BilinearModelCoefficients _biLinearBlueMotorCoefficients = {
             .lowCutoffRotorFreq = 3,
             .alpha = 0.176,
             .beta  = 0.475,
@@ -35,7 +46,16 @@ class TunedParameters{
             .delta = 0.054,
         };
 
-        static inline const BilinearModelCoefficients _ampCoeff = _blueMotorCoefficients;
+        static inline const BilinearModelCoefficients _bilinearModelAmpCoeff = _biLinearBlueMotorCoefficients;
+
+        static inline const ParabolicModelCoefficients _parabolicBlueMotorCoefficients = {
+            .lowCutoffRotorFreq = 3,
+            .a =  0.0087,
+            .b = -0.1443,
+            .c =  1.708,
+        };
+
+        static inline const ParabolicModelCoefficients _parabolicModelAmpCoeff = _parabolicBlueMotorCoefficients;
 
         static inline const SlipCoefficients _blueMotorSlipCoefficients = {
             .startFreqHz = 3, 
