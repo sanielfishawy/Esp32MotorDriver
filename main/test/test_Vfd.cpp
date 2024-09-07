@@ -6,16 +6,26 @@ extern "C" {
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "../http/HttpServer.h"
-#include "../http/HttpServer.h"
+#include "Vfd.h"
+#include "GoPedal.h"
 
 extern "C" {
 
     static void test_vfd() {
         HttpServer::setup();
+        GoPedal::setup();
         VFD::setup();
-        VFD::setFreqHz(5.0);
-        VFD::setAmplitudeFract(0.1);
+        VFD::setFreqHz(0.0);
+        VFD::setAmplitudeFract(0.0);
         VFD::start();
+
+        while(1){
+            float a = GoPedal::_getChanANormalized();
+            float b = GoPedal::_getChanBNormalized();
+            float t = GoPedal::getTorque();
+            ESP_LOGI("test_goPedal", "a: %f, b: %f, t: %f", a, b, t);
+            vTaskDelay(pdMS_TO_TICKS(1000));
+        }
     }
 
     void run_test_Vfd(){

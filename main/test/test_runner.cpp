@@ -13,7 +13,6 @@ extern "C"{
         // run_test_Derivator();
         // run_test_Pid();
         // run_test_Calibrate();
-        // run_test_Vfd();
         // run_test_WifiConnect();
         // run_test_WritePosition();
         // run_test_TelemetryToFile();
@@ -26,6 +25,7 @@ extern "C"{
         // run_test_Malloc();
         // run_test_Torque();
         // run_test_RotorSpeed();
+        // run_test_Vfd();
         // run_test_TunedParameters();
         run_test_TorqueControl();
         // run_test_GoPedal();

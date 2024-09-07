@@ -28,7 +28,7 @@ class TunedParameters{
     
     private:
         static inline const BilinearModelCoefficients _blueMotorCoefficients = {
-            .lowCutoffRotorFreq = 4.5,
+            .lowCutoffRotorFreq = 3,
             .alpha = 0.176,
             .beta  = 0.475,
             .gamma = 0.016,
