@@ -88,6 +88,7 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_RotorSpeed.cpp"
                         "test/test_TunedParameters.cpp"
                         "test/test_TorqueControl.cpp"
+                        "test/test_GoPedal.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

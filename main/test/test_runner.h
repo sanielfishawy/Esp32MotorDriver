@@ -25,4 +25,5 @@ extern "C" {
     void run_test_RotorSpeed();
     void run_test_TunedParameters();
     void run_test_TorqueControl();
+    void run_test_GoPedal();
 }

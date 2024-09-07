@@ -171,10 +171,15 @@
 // Go Pedal
 #define GP_TAG                  "GoPedal"
 #define GP_ADC_UNIT             ADC_UNIT_1
-#define GP_ADC_GPIO_NUM_A       GPIO_NUM_2
-#define GP_ADC_GPIO_NUM_B       GPIO_NUM_3
+#define GP_ADC_GPIO_NUM_A       ( (gpio_num_t) ADC1_CHANNEL_1_GPIO_NUM )
+#define GP_ADC_GPIO_NUM_B       ( (gpio_num_t) ADC2_CHANNEL_2_GPIO_NUM )
 #define GP_ADC_CHANNEL_A        ADC_CHANNEL_1
 #define GP_ADC_CHANNEL_B        ADC_CHANNEL_2
-#define GP_CHAN_A_NORM_FACTOR   ( (float) 1.0 )
-#define GP_CHAN_B_NORM_FACTOR   ( (float) 1.0 )
-#define GP_CHAN_AGREE_THRESHOLD ( (float) 0.01 )
+#define GP_CHAN_AGREE_THRESHOLD ( (float) 0.05 )
+#define GP_CHAN_A_MAX_RAW       ( (float) 3690 )
+#define GP_CHAN_B_MAX_RAW       ( (float) 2485 )
+#define GP_CHAN_A_MIN_RAW       ( (float) 616 )
+#define GP_CHAN_B_MIN_RAW       ( (float) 419 )
+#define GP_CHAN_A_RANGE         ( GP_CHAN_A_MAX_RAW - GP_CHAN_A_MIN_RAW )
+#define GP_CHAN_B_RANGE         ( GP_CHAN_B_MAX_RAW - GP_CHAN_B_MIN_RAW )
+

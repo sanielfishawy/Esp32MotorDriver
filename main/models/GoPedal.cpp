@@ -34,8 +34,10 @@ cJSON *GoPedal::getStatus(){
 
 float GoPedal::getTorque(){
     if(!_isSetup) return(-1);
-    if(!_channelsAgree()) return(-1);
-    return _getChanANormalized();
+    float a = _getChanANormalized();
+    float b = _getChanBNormalized();
+    if(!_valuesAgree(a, b)) return(-1);
+    return a;
 }
 
 int GoPedal::_getAdcRaw(adc_channel_t chan){
@@ -46,15 +48,27 @@ int GoPedal::_getAdcRaw(adc_channel_t chan){
 }
 
 float GoPedal::_getChanANormalized(){
-    return _getAdcRaw(GP_ADC_CHANNEL_A) * GP_CHAN_A_NORM_FACTOR;
+    float r = ( _getAdcRaw(GP_ADC_CHANNEL_A) - GP_CHAN_A_MIN_RAW ) / GP_CHAN_A_RANGE;
+    return GoPedal::_limitZeroToOne(r);
 }
 
 float GoPedal::_getChanBNormalized(){
-    return _getAdcRaw(GP_ADC_CHANNEL_B) * GP_CHAN_B_NORM_FACTOR;
+    float r = ( _getAdcRaw(GP_ADC_CHANNEL_B) - GP_CHAN_B_MIN_RAW ) / GP_CHAN_B_RANGE;
+    return _limitZeroToOne(r);
+}
+
+float GoPedal::_limitZeroToOne(float f){
+    if (f < 0) return(0);
+    if (f > 1) return(1);
+    return(f);
 }
 
 bool GoPedal::_channelsAgree(){
-    return abs(_getChanANormalized() - _getChanBNormalized()) < GP_CHAN_AGREE_THRESHOLD;
+    return _valuesAgree(_getChanANormalized(), _getChanBNormalized());
+}
+
+bool GoPedal::_valuesAgree(float a, float b){
+    return abs(a - b) < GP_CHAN_AGREE_THRESHOLD;
 }
 
 void GoPedal::_setupPin(gpio_num_t pin){
@@ -71,7 +85,7 @@ void GoPedal::_setupPins(){
 
 void GoPedal::_setupAdc(){
     _setupAdcUnit();
-    _setupAdcChannel();
+    _setupAdcChannels();
 }
 
 void GoPedal::_setupAdcUnit(){
@@ -83,10 +97,11 @@ void GoPedal::_setupAdcUnit(){
     ESP_ERROR_CHECK(adc_oneshot_new_unit(&_adcUnitConfig, &_adcHandle));
 }
 
-void GoPedal::_setupAdcChannel(){
+void GoPedal::_setupAdcChannels(){
     adc_oneshot_chan_cfg_t _adcChanCfg = {
         .atten = ADC_ATTEN_DB_11,
         .bitwidth = ADC_BIT_WIDTH,
     };
-    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, STM_ADC_CHANNEL, &_adcChanCfg));
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, GP_ADC_CHANNEL_A, &_adcChanCfg));
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, GP_ADC_CHANNEL_B, &_adcChanCfg));
 }
