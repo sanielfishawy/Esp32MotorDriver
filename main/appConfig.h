@@ -182,4 +182,5 @@
 #define GP_CHAN_B_MIN_RAW       ( (float) 419 )
 #define GP_CHAN_A_RANGE         ( GP_CHAN_A_MAX_RAW - GP_CHAN_A_MIN_RAW )
 #define GP_CHAN_B_RANGE         ( GP_CHAN_B_MAX_RAW - GP_CHAN_B_MIN_RAW )
+#define GP_UPDATE_PERIOD_MS     100
 

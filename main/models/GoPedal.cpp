@@ -1,13 +1,37 @@
 #include "GoPedal.h"
 
 bool GoPedal::_isSetup = false;
+bool GoPedal::_hadChannelMismatch = false;
+float GoPedal::_currentTorque = 0;
+esp_timer_handle_t GoPedal::_timer = NULL;
 adc_oneshot_unit_handle_t GoPedal::_adcHandle = nullptr;
 
 void GoPedal::setup(){
     if(_isSetup) return;
     _setupPins();
     _setupAdc();
+    _setupTimer();
     _isSetup = true;
+}
+
+float GoPedal::getTorque(){
+    return _currentTorque;
+}
+
+void GoPedal::_setupTimer(){
+    if (_timer != NULL) return;
+    ESP_ERROR_CHECK(esp_timer_create(&_timerArgs, &_timer));
+    ESP_ERROR_CHECK(esp_timer_start_periodic(_timer, 1000 * GP_UPDATE_PERIOD_MS));
+}
+
+void IRAM_ATTR GoPedal::_handleInterrupt(void *arg){
+    if (!_isSetup) return;
+    float torque = _getTorqueFromAdcs();
+    if (torque < 0){
+        _hadChannelMismatch = true;
+        return;
+    }
+    _currentTorque = torque;
 }
 
 cJSON *GoPedal::getStatus(){
@@ -19,12 +43,10 @@ cJSON *GoPedal::getStatus(){
         cJSON_AddItemToObject(status, "error", error); 
         return(status);
     }
-    if (!_channelsAgree()){
+    if (!_hadChannelMismatch){
         cJSON_AddBoolToObject(status, "ok", false);
         cJSON *error = cJSON_CreateObject();
-        cJSON_AddStringToObject(error, "message", "channels do not agree");
-        cJSON_AddNumberToObject(error, "channelA", _getChanANormalized());
-        cJSON_AddNumberToObject(error, "channelB", _getChanBNormalized());
+        cJSON_AddStringToObject(error, "message", "channels did not agree");
         cJSON_AddItemToObject(status, "error", error);
         return(status);
     }
@@ -32,7 +54,7 @@ cJSON *GoPedal::getStatus(){
     return(status);
 }
 
-float GoPedal::getTorque(){
+float GoPedal::_getTorqueFromAdcs(){
     if(!_isSetup) return(-1);
     float a = _getChanANormalized();
     float b = _getChanBNormalized();

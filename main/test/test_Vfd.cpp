@@ -19,7 +19,7 @@ extern "C" {
         VFD::setAmplitudeFract(0.0);
         VFD::start();
 
-        while(1){
+        while(0){
             float a = GoPedal::_getChanANormalized();
             float b = GoPedal::_getChanBNormalized();
             float t = GoPedal::getTorque();
