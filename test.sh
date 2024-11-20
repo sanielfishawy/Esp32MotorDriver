@@ -3,11 +3,22 @@
 # Define the IDF project directory
 PROJECT_DIR="${HOME}/dev/espProjects/Esp32MotorDriver/"
 
+# Define the path to the ESP-IDF directory
+ESP_IDF_PATH="${HOME}/dev/esp/v5.3.1"
+
 # Define the port your device is connected to
 SERIAL_PORT="/dev/cu.usbmodem14101"
 
 # Navigate to the project directory
 cd "$PROJECT_DIR"
+
+# Check if idf.py is available
+if ! command -v idf.py &> /dev/null
+then
+    echo "idf.py could not be found, sourcing export.sh..."
+    source "${ESP_IDF_PATH}/export.sh"
+fi
+
 
 # Export the TEST_COMPONENT environment variable
 export TEST_COMPONENT=1

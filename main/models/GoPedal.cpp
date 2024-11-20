@@ -121,7 +121,7 @@ void GoPedal::_setupAdcUnit(){
 
 void GoPedal::_setupAdcChannels(){
     adc_oneshot_chan_cfg_t _adcChanCfg = {
-        .atten = ADC_ATTEN_DB_11,
+        .atten = ADC_ATTEN_DB_12,
         .bitwidth = ADC_BIT_WIDTH,
     };
     ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, GP_ADC_CHANNEL_A, &_adcChanCfg));

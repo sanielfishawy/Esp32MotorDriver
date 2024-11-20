@@ -25,9 +25,9 @@ extern "C"{
         // run_test_Malloc();
         // run_test_Torque();
         // run_test_RotorSpeed();
-        // run_test_Vfd();
+        run_test_Vfd();
         // run_test_TunedParameters();
-        run_test_TorqueControl();
         // run_test_GoPedal();
+        // run_test_TorqueControl();
     }
 }

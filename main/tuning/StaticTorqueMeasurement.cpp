@@ -42,7 +42,7 @@ void StaticTorqueMeasurement::_setupAdcUnit(){
 
 void StaticTorqueMeasurement::_setupAdcChannel(){
     adc_oneshot_chan_cfg_t _adcChanCfg = {
-        .atten = ADC_ATTEN_DB_11,
+        .atten = ADC_ATTEN_DB_12,
         .bitwidth = ADC_BIT_WIDTH,
     };
     ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, STM_ADC_CHANNEL, &_adcChanCfg));
