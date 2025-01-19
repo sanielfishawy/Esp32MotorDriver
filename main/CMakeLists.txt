@@ -17,6 +17,8 @@ set (
                 "models/TunedParameters.cpp"
                 "models/TorqueControl.cpp"
                 "models/GoPedal.cpp"
+                "models/Contactors.cpp"
+                "models/DCVoltage.cpp"
                 "http/WifiConnect.cpp"
                 "http/NvsFlash.cpp"
                 "http/HttpServer.cpp"
@@ -40,6 +42,7 @@ set (
 set ( 
         SHARED_PRIVATE_REQUIRES
                 driver
+                esp_driver_gpio
                 esp_timer
                 esp_adc
                 esp_wifi
@@ -89,6 +92,9 @@ if(DEFINED ENV{TEST_COMPONENT})
                         "test/test_TunedParameters.cpp"
                         "test/test_TorqueControl.cpp"
                         "test/test_GoPedal.cpp"
+                        "test/test_Contactors.cpp"
+                        "test/test_DCVoltage.cpp"
+                        "test/test_Adc.cpp"
                         ${SHARED_SOURCES}
                 INCLUDE_DIRS 
                         ${SHARED_INCLUDES}

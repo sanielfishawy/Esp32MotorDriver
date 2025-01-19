@@ -5,18 +5,19 @@ extern "C" {
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "../models/Adc.h"
+#include "../deprecated/AdcDeprecated.h"
 
 extern "C" {
 
     static void test_calibrate() {
-        Adc::setup();
-        int rawA, rawB, rawC;
+        AdcDeprecated::setup();
+        // int rawA, rawB, rawC;
         while(1){
-            rawA = Adc::readRaw(PWM_A_ADC_CHANNEL_NUM);
-            rawB = Adc::readRaw(PWM_B_ADC_CHANNEL_NUM);
-            rawC = Adc::readRaw(PWM_C_ADC_CHANNEL_NUM);
-            ESP_LOGI("test_calibrate", "A:%d B:%d C:%d", rawA, rawB, rawC);
+            // rawA = Adc::readRaw(PWM_A_ADC_CHANNEL_NUM);
+            // rawB = Adc::readRaw(PWM_B_ADC_CHANNEL_NUM);
+            // rawC = Adc::readRaw(PWM_C_ADC_CHANNEL_NUM);
+            // ESP_LOGI("test_calibrate", "A:%d B:%d C:%d", rawA, rawB, rawC);
+            ESP_LOGI("test_calibrate", "Not setup with new Adc yet");
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
     }

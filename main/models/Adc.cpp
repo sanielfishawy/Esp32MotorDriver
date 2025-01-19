@@ -1,75 +1,44 @@
 #include "Adc.h"
 
 bool Adc::_isSetup = false;
-adc_oneshot_unit_handle_t Adc::_adcHandle = nullptr;
-adc_oneshot_unit_init_cfg_t Adc::_adcUnitConfig = {};
-adc_oneshot_chan_cfg_t Adc::_adcChanCfg = {};
+adc_oneshot_unit_handle_t Adc::_adc_handle = NULL;
 
-void Adc::setup(){
-    if(_isSetup) return;
-    _setupPins();
+
+void Adc::_setup() {
+    if (_isSetup) return;
     _setupAdc();
+    _setupChannels();
     _isSetup = true;
+    ESP_LOGI(ADC_TAG, "is setup");
 }
 
-int Adc::readRaw(adc_channel_t chan){
-    if(!_isSetup) return(-1);
-
-    int raw;
-    ESP_ERROR_CHECK(adc_oneshot_read(_adcHandle, chan, &raw));
-    return(raw);
+int Adc::readRaw(adc_channel_t channel){
+    _setup();
+    int rawValue = -1;
+    ESP_ERROR_CHECK(adc_oneshot_read(_adc_handle, channel, &rawValue));
+    return rawValue;
 }
 
-float Adc::readVoltage(adc_channel_t chan){
-    if(!_isSetup) return(-1);
-    float m = 0.000777;
-    float b = 0.0849;
-
-    float raw = (float) readRaw(chan);
-    // float v = ((float) raw * ADC_MAX_VOLTAGE_FLOAT) / (float) ADC_MAX_VOLTAGE_BINARY;
-    float v = (m * raw) + b;
-    return(v);
-}   
-
-void Adc::_setupPins(){
-    _setupPin(ADC_CHANNEL_O_GPIO_NUM);
-    _setupPin(ADC_CHANNEL_1_GPIO_NUM);
-    _setupPin(ADC_CHANNEL_2_GPIO_NUM);
-}
-
-void Adc::_setupPin(gpio_num_t gpioNum){
-    ESP_ERROR_CHECK(gpio_reset_pin(gpioNum));
-    ESP_ERROR_CHECK(gpio_intr_disable(gpioNum));
-    ESP_ERROR_CHECK(gpio_set_intr_type(gpioNum, GPIO_INTR_DISABLE));
-    ESP_ERROR_CHECK(gpio_set_pull_mode(gpioNum, GPIO_FLOATING));
-}
-
+// I set up only 1 adc to be safe
 void Adc::_setupAdc(){
-    _setupAdcUnit();
-    _setupAdcChannels();
-}
-
-void Adc::_setupAdcUnit(){
-    adc_oneshot_unit_init_cfg_t _adcUnitConfig = {
+    adc_oneshot_unit_init_cfg_t adcConfig = {
         .unit_id = ADC_UNIT_1,
         .clk_src = ADC_RTC_CLK_SRC_DEFAULT,
         .ulp_mode = ADC_ULP_MODE_DISABLE,
     };
-    ESP_ERROR_CHECK(adc_oneshot_new_unit(&_adcUnitConfig, &_adcHandle));
+    
+    ESP_ERROR_CHECK(adc_oneshot_new_unit(&adcConfig, &_adc_handle));
 }
 
-void Adc::_setupAdcChannel(adc_channel_t chan){
-    adc_oneshot_chan_cfg_t _adcChanCfg = {
+// I set up only the channels we use. One of the ADC channels is used by usb boot loader.
+void Adc::_setupChannels(){
+    adc_oneshot_chan_cfg_t chanConfig = {
         .atten = ADC_ATTEN_DB_12,
-        .bitwidth = ADC_BIT_WIDTH,
+        .bitwidth = ADC_BITWIDTH_DEFAULT,
     };
-    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adcHandle, chan, &_adcChanCfg));
-}
 
-void Adc::_setupAdcChannels(){
-    _setupAdcChannel(ADC_CHANNEL_0);
-    _setupAdcChannel(ADC_CHANNEL_1);
-    _setupAdcChannel(ADC_CHANNEL_2);
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adc_handle, (adc_channel_t) ADC1_GPIO1_CHANNEL, &chanConfig));
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adc_handle, (adc_channel_t) ADC1_GPIO2_CHANNEL, &chanConfig));
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(_adc_handle, (adc_channel_t) ADC1_GPIO3_CHANNEL, &chanConfig));
 }
-
 

@@ -53,15 +53,18 @@
 #define TEST_OUTPUT_GPIO_NUM GPIO_NUM_11
 
 // Adc
-#define ADC_BIT_WIDTH           ADC_BITWIDTH_DEFAULT
-#define ADC_MAX_VOLTAGE_BINARY  (4000)
-#define ADC_MAX_VOLTAGE_FLOAT   (2.75)
-#define ADC_MIN_VOLTAGE_BINARY  (250)
-#define ADC_MIN_VOLTAGE_FLOAT   (0.2)
-#define ADC_RANGE_BINARY        (ADC_MAX_VOLTAGE_BINARY - ADC_MIN_VOLTAGE_BINARY)
-#define ADC_CHANNEL_O_GPIO_NUM  GPIO_NUM_1
-#define ADC_CHANNEL_1_GPIO_NUM  GPIO_NUM_2
-#define ADC_CHANNEL_2_GPIO_NUM  GPIO_NUM_3
+#define ADC_TAG                     "Adc"
+
+// Adc deprecated
+#define ADC_DEP_BIT_WIDTH           ADC_BITWIDTH_DEFAULT
+#define ADC_DEP_MAX_VOLTAGE_BINARY  (4000)
+#define ADC_DEP_MAX_VOLTAGE_FLOAT   (2.75)
+#define ADC_DEP_MIN_VOLTAGE_BINARY  (250)
+#define ADC_DEP_MIN_VOLTAGE_FLOAT   (0.2)
+#define ADC_DEP_RANGE_BINARY        (ADC_MAX_VOLTAGE_BINARY - ADC_MIN_VOLTAGE_BINARY)
+#define ADC_DEP_CHANNEL_O_GPIO_NUM  GPIO_NUM_1
+#define ADC_DEP_CHANNEL_1_GPIO_NUM  GPIO_NUM_2
+#define ADC_DEP_CHANNEL_2_GPIO_NUM  GPIO_NUM_3
 
 // PhaseGen
 #define PG_MIN_CLOCK_DIVIDER    (2)
@@ -134,7 +137,7 @@
 #define MCPWM_B_LOW_GPIO_NUM        PWM_B_LOW_GPIO_NUM
 #define MCPWM_C_HIGH_GPIO_NUM       PWM_C_HIGH_GPIO_NUM
 #define MCPWM_C_LOW_GPIO_NUM        PWM_C_LOW_GPIO_NUM
-#define MCPWM_DEAD_TIME_USEC        ( (float) 1.0 )
+#define MCPWM_DEAD_TIME_USEC        ( (float) 8.0 )
 #define MCPWM_DEAD_TIME_TICKS       ( (uint32_t) ( MCPWM_DEAD_TIME_USEC / MCPWM_TIMER_TICK_USEC ) )
 
 // RotorSpeed
@@ -185,3 +188,14 @@
 #define GP_CHAN_B_RANGE         ( GP_CHAN_B_MAX_RAW - GP_CHAN_B_MIN_RAW )
 #define GP_UPDATE_PERIOD_MS     100
 
+// Contactors
+#define CT_TAG                  "Contactors"
+#define CT_DC_ON_GPIO_NUM       GPIO_NUM_46
+#define CT_DC_CHG_GPIO_NUM      GPIO_NUM_47
+#define CT_DC_DIS_CHG_GPIO_NUM  GPIO_NUM_48
+
+// DCVoltage
+#define DCV_TAG                 "DCVoltage"
+#define DCV_GPIO_NUM            GPIO_NUM_1
+#define DCV_ADC_CHANNEL         (adc_channel_t) ADC1_GPIO1_CHANNEL
+#define DCV_RAW_FOR_100_V       ( (int) 841 )
