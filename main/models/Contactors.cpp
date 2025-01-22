@@ -1,24 +1,49 @@
 #include "Contactors.h"
 
 bool Contactors::_isSetup = false; 
+bool Contactors::_chargingTaskIsRunning = false;
 
 void Contactors::powerUp() {
     _setup();
 
     int i = 0;
+
+    if (_chargingTaskIsRunning) {
+        ESP_LOGW(CT_TAG, "Charging task already running. Skipping new task creation.");
+        return;
+    }
+
+    if (xTaskCreate(_chargingTask, "ChargingTask", 4096, nullptr, tskIDLE_PRIORITY, nullptr) == pdPASS) {
+        _chargingTaskIsRunning = true; 
+    } else {
+        ESP_LOGE(CT_TAG, "Failed to create ChargingTask");
+    }
+}
+
+void Contactors::_chargingTask(void* pvParameters) {
+    int i = 0;
+
     _dcDisChgOff();
+    _dcOff();
+    _dcChgOn();
 
     while (DCVoltage::readVoltage() < CT_VOLTAGE_HI_THRESHOLD) {
-        if (i%10 == 0) ESP_LOGI(CT_TAG, "Charging waiting for voltage to rise from: %f, to threshold: %f", DCVoltage::readVoltage(), CT_VOLTAGE_HI_THRESHOLD);
+        if (i % 10 == 0) {
+            ESP_LOGI(CT_TAG, "Charging waiting for voltage to rise from: %f, to threshold: %f",
+                     DCVoltage::readVoltage(), CT_VOLTAGE_HI_THRESHOLD);
+        }
         i++;
-        _dcOff();
-        _dcChgOn();
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 
+    ESP_LOGI(CT_TAG, "Finished charging. Voltage: %f", DCVoltage::readVoltage());
     _dcChgOff();
     _dcOn();
+
+    _chargingTaskIsRunning = false;
+    vTaskDelete(nullptr);
 }
+
 
 void Contactors::powerDown() {
     _setup();

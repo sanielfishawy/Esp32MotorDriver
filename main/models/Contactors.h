@@ -28,6 +28,9 @@ class Contactors {
         static cJSON *getStatusJson();
 
     private:
+        static bool _chargingTaskIsRunning; // Flag to indicate if charging task is running
+        static void _chargingTask(void *pvParameters);
+
         static void _setup();
         static bool _isSetup;
         static void _setupGpio(gpio_num_t gpioNum);

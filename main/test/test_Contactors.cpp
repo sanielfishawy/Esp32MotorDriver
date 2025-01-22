@@ -4,6 +4,8 @@ extern "C" {
 
 #include "cJSON.h" 
 #include "esp_log.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 #include "../models/Contactors.h"
 
@@ -15,6 +17,7 @@ extern "C" {
         ESP_LOGI(CT_TAG, "status: %s", cJSON_Print(status)); 
 
         Contactors::powerUp();
+        vTaskDelay(100 / portTICK_PERIOD_MS);
 
         status = Contactors::getStatusJson();
         ESP_LOGI(CT_TAG, "status: %s", cJSON_Print(status)); 

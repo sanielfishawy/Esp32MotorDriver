@@ -8,6 +8,8 @@
 #include "esp_http_server.h"
 #include "cJSON.h"
 #include "esp_err.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 #include "Vfd.h"
 #include "SvPwm.h"

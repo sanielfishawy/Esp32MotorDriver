@@ -170,6 +170,8 @@ esp_err_t RouteHandlers::getContactorsStatusHandler(httpd_req_t *req){
 
 esp_err_t RouteHandlers::setContactorsPowerUpHandler(httpd_req_t *req){
     Contactors::powerUp();
+    // Wait a bit for charging to kick in to return status.
+    vTaskDelay(100 / portTICK_PERIOD_MS);
     cJSON *status = Contactors::getStatusJson();
     cJSON *responseObj = _getOkResponseObject(status);
     return _sendResponse(req, responseObj);
