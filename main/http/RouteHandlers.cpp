@@ -12,6 +12,7 @@ esp_err_t RouteHandlers::rootHandler(httpd_req_t *req){
     cJSON_AddNumberToObject(responseObj, "torqueFract", TorqueControl::getTorque());
     cJSON_AddBoolToObject(responseObj, "useGoPedal", TorqueControl::getUseGoPedal());
     cJSON_AddItemToObject(responseObj, "goPedalStatus", GoPedal::getStatus());
+    cJSON_AddItemToObject(responseObj, "contactorsStatus", Contactors::getStatusJson());
     return _sendResponse(req, responseObj);
 }
 
@@ -158,6 +159,26 @@ esp_err_t RouteHandlers::getStaticTorqueMeasurementHandler(httpd_req_t *req){
 esp_err_t RouteHandlers::getDynamicMeasurementHandler(httpd_req_t *req){
     cJSON *measurement = Dynamic::getMeasurementJson();
     cJSON *responseObj = _getOkResponseObject(measurement);
+    return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::getContactorsStatusHandler(httpd_req_t *req){
+    cJSON *status = Contactors::getStatusJson();
+    cJSON *responseObj = _getOkResponseObject(status);
+    return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::setContactorsPowerUpHandler(httpd_req_t *req){
+    Contactors::powerUp();
+    cJSON *status = Contactors::getStatusJson();
+    cJSON *responseObj = _getOkResponseObject(status);
+    return _sendResponse(req, responseObj);
+}
+
+esp_err_t RouteHandlers::setContactorsPowerDownHandler(httpd_req_t *req){
+    Contactors::powerDown();
+    cJSON *status = Contactors::getStatusJson();
+    cJSON *responseObj = _getOkResponseObject(status);
     return _sendResponse(req, responseObj);
 }
 

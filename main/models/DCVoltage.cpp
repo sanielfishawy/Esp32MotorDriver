@@ -4,14 +4,18 @@ bool DCVoltage::_isSetup = false;
 
 float DCVoltage::readVoltage() {
     _setup();
-    int raw = Adc::readRaw(DCV_ADC_CHANNEL);
-    return (float) 100.0 * raw / DCV_RAW_FOR_100_V;
+    return (float) 100.0 * readRawVoltage() / DCV_RAW_FOR_100_V;
+}
+
+int DCVoltage::readRawVoltage() {
+    _setup();
+    return Adc::readRaw(DCV_ADC_CHANNEL);
 }
 
 void DCVoltage::_setup() {
     if (_isSetup) return;
     _setupGpio();
-    ESP_LOGI(DCV_TAG, "setup");
+    ESP_LOGI(DCV_TAG, "is setup");
     _isSetup = true;
 }
 

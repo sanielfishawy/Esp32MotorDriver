@@ -16,12 +16,13 @@ extern "C" {
         // float avg;
         while(1){
             // i++;
-            float val = DCVoltage::readVoltage();
+            int raw = DCVoltage::readRawVoltage();
+            float voltage = DCVoltage::readVoltage();
             // sum += val;
             // avg = sum / i;
             // ESP_LOGI(DCV_TAG, "av: %f val: %d", avg, val);
-            ESP_LOGI(DCV_TAG, "val: %f", val);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            ESP_LOGI(DCV_TAG, "raw: %d, voltage %f", raw, voltage);
+            vTaskDelay(100 / portTICK_PERIOD_MS);
         }
     }
 

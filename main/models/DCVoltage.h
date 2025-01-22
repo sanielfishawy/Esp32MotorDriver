@@ -11,6 +11,7 @@
 class DCVoltage {
     public:
         static float readVoltage();
+        static int   readRawVoltage();
 
     private:
         static bool _isSetup;

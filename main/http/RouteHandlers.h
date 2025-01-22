@@ -15,6 +15,7 @@
 #include "StaticTorqueMeasurement.h"
 #include "TorqueControl.h"
 #include "GoPedal.h"
+#include "Contactors.h"
 
 #ifdef __cplusplus
 
@@ -40,6 +41,9 @@
             static esp_err_t setUseGoPedalHandler(httpd_req_t *req);
             static esp_err_t getUseGoPedalHandler(httpd_req_t *req);
             static esp_err_t getGoPedalStatusHandler(httpd_req_t *req);
+            static esp_err_t getContactorsStatusHandler(httpd_req_t *req);
+            static esp_err_t setContactorsPowerUpHandler(httpd_req_t *req);
+            static esp_err_t setContactorsPowerDownHandler(httpd_req_t *req);
         
         private:
             static esp_err_t _sendResponse(httpd_req_t *req, cJSON *responseObj, const char* status="200 OK");

@@ -8,6 +8,7 @@
 #include "esp_timer.h"
 
 #include "appConfig.h"
+#include "Adc.h"
 
 #ifdef __cplusplus
 
@@ -19,6 +20,7 @@ class GoPedal{
         static float _getChanANormalized();
         static float _getChanBNormalized();
         static float getTorque();
+        static void show();
 
     private:
         static bool _isSetup;

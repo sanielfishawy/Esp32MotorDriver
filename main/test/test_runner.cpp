@@ -29,8 +29,8 @@ extern "C"{
         // run_test_TunedParameters();
         // run_test_GoPedal();
         // run_test_TorqueControl();
-        // run_test_Contactors();
+        run_test_Contactors();
         // run_test_Adc();
-        run_test_DcVoltage();
+        // run_test_DcVoltage();
     }
 }

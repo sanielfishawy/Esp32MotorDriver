@@ -98,15 +98,27 @@ std::vector<httpd_uri_t> Routes::uris = {
         .user_ctx = nullptr,
     },
     {
-        .uri      = "/useGoPedal",
-        .method   = HTTP_GET,
-        .handler  = RouteHandlers::getUseGoPedalHandler,
-        .user_ctx = nullptr,
-    },
-    {
         .uri      = "/goPedalStatus",
         .method   = HTTP_GET,
         .handler  = RouteHandlers::getGoPedalStatusHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/contactorsStatus",
+        .method   = HTTP_GET,
+        .handler  = RouteHandlers::getContactorsStatusHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/contactorsPowerUp",
+        .method   = HTTP_PUT,
+        .handler  = RouteHandlers::setContactorsPowerUpHandler,
+        .user_ctx = nullptr,
+    },
+    {
+        .uri      = "/contactorsPowerDown",
+        .method   = HTTP_PUT,
+        .handler  = RouteHandlers::setContactorsPowerDownHandler,
         .user_ctx = nullptr,
     },
 };
